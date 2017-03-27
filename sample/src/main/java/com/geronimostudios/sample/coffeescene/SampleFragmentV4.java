@@ -1,4 +1,4 @@
-package com.geronimostudios.sample.coffeelayout;
+package com.geronimostudios.sample.coffeescene;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

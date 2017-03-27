@@ -1,20 +1,36 @@
 apply plugin: 'com.android.application'
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
+
     defaultConfig {
-        applicationId "com.geronimostudios.sample.coffeelayout"
+        applicationId "com.geronimostudios.sample.coffeescene"
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
     }
 
+    signingConfigs {
+        releaseKeyStore {
+            storeFile file(properties.getProperty("sample.keystore.path"))
+            storePassword properties.getProperty("sample.keystore.store_password")
+            keyAlias properties.getProperty("sample.keystore.key_alias")
+            keyPassword properties.getProperty("sample.keystore.key_password")
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            shrinkResources true
+            minifyEnabled true
+            useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.releaseKeyStore
         }
     }
 }

@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/sample_view_title"
+        android:text="@string/sample_fragment_title"
         android:padding="@dimen/default_padding"
         android:textStyle="bold" />
 

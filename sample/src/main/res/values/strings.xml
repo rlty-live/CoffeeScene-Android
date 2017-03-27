@@ -10,4 +10,5 @@
     <string name="sample_with_activity">Sample with activity</string>
     <string name="sample_with_fragment">Sample with android.app.Fragment</string>
     <string name="sample_with_fragment_v4">Sample with android.support.v4.app.Fragment</string>
+    <string name="sample_fragment_title">Sample with fragment</string>
 </resources>
