@@ -1,4 +1,4 @@
-package com.geronimostudios.ui.annotations;
+package com.geronimostudios.ui.coffeescene.annotations;
 
 import android.support.annotation.LayoutRes;
 

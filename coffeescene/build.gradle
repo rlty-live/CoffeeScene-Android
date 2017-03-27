@@ -106,7 +106,7 @@ bintray {
 
     pkg {
         repo = 'geronimostudios'
-        name = 'com.geronimostudios.ui'
+        name = 'com.geronimostudios.ui.coffeescene'
         userOrg = 'geronimostudios'
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/geronimoagency/CoffeeScene-Android.git'
