@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CoffeeLayout</string>
+    <string name="app_name">CoffeeScene</string>
     <string name="fake_placeholder">An error occurred, please retry</string>
     <string name="button_1">Main content</string>
     <string name="button_2">Loader</string>
