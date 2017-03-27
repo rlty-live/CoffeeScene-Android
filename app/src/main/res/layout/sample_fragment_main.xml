@@ -2,15 +2,15 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="250dp"
+    android:layout_height="250dp"
     android:orientation="vertical"
     android:gravity="center">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/sample_activity_title"
+        android:text="@string/sample_view_title"
         android:padding="@dimen/default_padding"
         android:textStyle="bold" />
 
@@ -29,18 +29,6 @@
     <Button
         android:id="@+id/sample_switch_to_placeholder"
         android:text="@string/button_3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/sample_switch_to_custom_view"
-        android:text="@string/sample_with_custom_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/sample_switch_to_fragment"
-        android:text="@string/sample_with_fragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>

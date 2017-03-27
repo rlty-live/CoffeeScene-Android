@@ -1,7 +1,9 @@
 package com.geronimostudios.ui;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -119,6 +121,40 @@ public final class SceneManager {
     }
 
     /**
+     * <p>Parse the annotation {@link CoffeeScene} of a {@link Fragment}
+     *  and returns the {@link ViewGroup} to returned by
+     *  {@link Fragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}.</p>
+     *
+     * @param fragment an {@link Fragment} that has a {@link CoffeeScene}
+     */
+    public static ViewGroup create(@NonNull Fragment fragment) {
+        return doCreate(
+                fragment.getActivity(),
+                fragment,
+                sDefaultSceneAnimationAdapter,
+                new FrameLayout(fragment.getActivity())
+        );
+    }
+
+    /**
+     * <p>Parse the annotation {@link CoffeeScene} of a {@link Fragment}
+     *  and returns the {@link ViewGroup} to returned by
+     *  {@link Fragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}</p>
+     *
+     * @param fragment an {@link Fragment} that has a {@link CoffeeScene}
+     * @param adapter The {@link SceneAnimationAdapter} to be used.
+     */
+    public static ViewGroup create(@NonNull Fragment fragment,
+                                   @Nullable SceneAnimationAdapter adapter) {
+        return doCreate(
+                fragment.getActivity(),
+                fragment,
+                adapter,
+                new FrameLayout(fragment.getActivity())
+        );
+    }
+
+    /**
      * Switch to another {@link Scene}.
      *
      * @param activity The parent activity.
@@ -136,6 +172,16 @@ public final class SceneManager {
      */
     public static void scene(@NonNull ViewGroup view, int scene) {
         doChangeScene(view, scene);
+    }
+
+    /**
+     * Switch to another {@link Scene}.
+     *
+     * @param fragment The holder fragment.
+     * @param scene The scene id. See {@link Scene#scene()}.
+     */
+    public static void scene(@NonNull Fragment fragment, int scene) {
+        doChangeScene(fragment, scene);
     }
 
     /**
@@ -173,13 +219,7 @@ public final class SceneManager {
         }
 
         // Save the scene's meta data
-        ScenesMeta meta = new ScenesMeta(
-                root,
-                sDefaultSceneAnimationAdapter,
-                scenes,
-                defaultScene
-        );
-        sScenesMeta.put(object, meta);
+        sScenesMeta.put(object, new ScenesMeta(root, adapter, scenes, defaultScene));
         return root;
     }
 

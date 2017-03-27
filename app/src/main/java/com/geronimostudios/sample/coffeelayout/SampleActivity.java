@@ -30,6 +30,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
         findViewById(R.id.go_to_main_from_placeholder).setOnClickListener(this);
         findViewById(R.id.sample_switch_to_custom_view).setOnClickListener(this);
         findViewById(R.id.sample_switch_to_activity).setOnClickListener(this);
+        findViewById(R.id.sample_switch_to_fragment).setOnClickListener(this);
     }
 
     @Override
@@ -49,6 +50,9 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.sample_switch_to_custom_view:
                 SceneManager.scene(this, SAMPLE_WITH_VIEW);
+                break;
+            case R.id.sample_switch_to_fragment:
+                new SampleFragment().show(getFragmentManager(), "SampleFragment");
                 break;
             default:
                 throw new IllegalArgumentException("Nope");

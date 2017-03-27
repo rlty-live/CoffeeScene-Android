@@ -11,10 +11,6 @@ import com.geronimostudios.ui.SceneManager;
 import com.geronimostudios.ui.annotations.CoffeeScene;
 import com.geronimostudios.ui.annotations.Scene;
 
-/**
- * Created by jerome on 27/03/17.
- */
-
 @CoffeeScene(
         value = {
                 @Scene(scene = Scene.MAIN_CONTENT, layout = R.layout.sample_view_main),

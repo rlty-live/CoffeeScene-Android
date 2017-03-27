@@ -4,8 +4,8 @@
     android:layout_gravity="center"
     android:gravity="center"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="250dp"
+    android:layout_height="250dp">
 
     <android.widget.ProgressBar
         android:layout_margin="@dimen/default_padding"
