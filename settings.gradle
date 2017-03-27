@@ -1,1 +1,1 @@
-include ':app', ':coffeescene'
+include ':sample', ':coffeescene'
