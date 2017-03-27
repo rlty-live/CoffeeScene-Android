@@ -155,6 +155,40 @@ public final class SceneManager {
     }
 
     /**
+     * <p>Parse the annotation {@link CoffeeScene} of a {@link android.support.v4.app.Fragment}
+     *  and returns the {@link ViewGroup} to returned by
+     *  {@link android.support.v4.app.Fragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}.</p>
+     *
+     * @param fragment an {@link android.support.v4.app.Fragment} that has a {@link CoffeeScene}
+     */
+    public static ViewGroup create(@NonNull android.support.v4.app.Fragment fragment) {
+        return doCreate(
+                fragment.getActivity(),
+                fragment,
+                sDefaultSceneAnimationAdapter,
+                new FrameLayout(fragment.getActivity())
+        );
+    }
+
+    /**
+     * <p>Parse the annotation {@link CoffeeScene} of a {@link android.support.v4.app.Fragment}
+     *  and returns the {@link ViewGroup} to returned by
+     *  {@link android.support.v4.app.Fragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}</p>
+     *
+     * @param fragment an {@link android.support.v4.app.Fragment} that has a {@link CoffeeScene}
+     * @param adapter The {@link SceneAnimationAdapter} to be used.
+     */
+    public static ViewGroup create(@NonNull android.support.v4.app.Fragment fragment,
+                                   @Nullable SceneAnimationAdapter adapter) {
+        return doCreate(
+                fragment.getActivity(),
+                fragment,
+                adapter,
+                new FrameLayout(fragment.getActivity())
+        );
+    }
+
+    /**
      * Switch to another {@link Scene}.
      *
      * @param activity The parent activity.
@@ -181,6 +215,16 @@ public final class SceneManager {
      * @param scene The scene id. See {@link Scene#scene()}.
      */
     public static void scene(@NonNull Fragment fragment, int scene) {
+        doChangeScene(fragment, scene);
+    }
+
+    /**
+     * Switch to another {@link Scene}.
+     *
+     * @param fragment The holder fragment.
+     * @param scene The scene id. See {@link Scene#scene()}.
+     */
+    public static void scene(@NonNull android.support.v4.app.Fragment fragment, int scene) {
         doChangeScene(fragment, scene);
     }
 
