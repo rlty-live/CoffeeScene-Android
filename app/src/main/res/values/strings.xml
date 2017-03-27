@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">CoffeeLayout</string>
+    <string name="fake_placeholder">An error has oocured, please retry</string>
+    <string name="button_1">Main content</string>
+    <string name="button_2">Loader</string>
+    <string name="button_3">Placeholder</string>
+    <string name="sample_with_custom_view">Sample with custom view</string>
+    <string name="sample_view_title">Sample with custom view</string>
+    <string name="sample_activity_title">Sample with activity</string>
+    <string name="sample_with_activity">Sample with activity</string>
+</resources>

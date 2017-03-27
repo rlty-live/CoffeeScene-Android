@@ -1,0 +1,128 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+apply from: '../config/quality.gradle'
+
+String library_version = '0.0.1'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        minSdkVersion 12
+        targetSdkVersion 25
+        versionCode 1
+        versionName library_version
+    }
+
+    buildTypes {
+        release {
+            consumerProguardFiles 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:25.3.0'
+}
+
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    failOnError = false
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+task findConventions << {
+    println project.getConvention()
+}
+
+group = 'com.geronimostudios.ui' //bintray org/group name
+version = library_version //version
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            name 'com.geronimostudios.ui'
+            description 'A simple scene manager for Android'
+            url 'https://github.com/geronimoagency/CoffeeScene-Android'
+
+            packaging 'aar'
+            groupId 'com.geronimostudios.ui'
+            artifactId 'coffeescene'
+            version library_version
+
+            licenses {
+                license {
+                    name 'The Apache Software License, Version 2.0'
+                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    distribution 'repo'
+                }
+            }
+            scm {
+                connection 'https://github.com/geronimoagency/CoffeeScene-Android.git'
+                url 'https://github.com/geronimoagency/CoffeeScene-Android'
+
+            }
+            developers {
+                developer {
+                    id 'jeromec-geronimo'
+                    name 'Jérôme Caudoux'
+                    email 'jerome.c@geronimostudios.com'
+                }
+            }
+        }
+    }
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives'] //When uploading configuration files
+
+    dryRun = false //[Default: false] Whether to run this as dry-run, without deploying
+    publish = true //[Default: false] Whether version should be auto published after an upload
+    override = true //[Default: false] Whether to override version artifacts already published
+
+    pkg {
+        repo = 'geronimostudios'
+        name = 'com.geronimostudios.ui'
+        userOrg = 'geronimostudios'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/geronimoagency/CoffeeScene-Android.git'
+        issueTrackerUrl = 'https://github.com/geronimoagency/CoffeeScene-Android/issues'
+        websiteUrl = 'http://www.geronimo-agency.com'
+        labels = ['android', 'layout', 'view', 'scene', 'annotation']
+        publicDownloadNumbers = true
+        version {
+            vcsTag = library_version
+            name = library_version
+            desc = 'A simple scene manager for Android'
+
+            gpg {
+                sign = true //Determines whether to GPG sign the files. The default is false
+                passphrase = properties.getProperty("bintray.gpg.passphrase") // The passphrase for GPG signing'
+            }
+        }
+    }
+}
