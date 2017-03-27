@@ -3,39 +3,39 @@ package com.geronimostudios.ui;
 import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 
-import com.geronimostudios.ui.annotations.AnimationAdapter;
 import com.geronimostudios.ui.annotations.Scene;
 
 /**
- * Created by jerome on 27/03/17.
+ * Contains data about a {@link com.geronimostudios.ui.annotations.CoffeeScene}
  */
-class ScenesMeta {
+final class ScenesMeta {
     private final ViewGroup mRoot;
-    private @NonNull AnimationAdapter mAnimationAdapter;
+    private @NonNull
+    SceneAnimationAdapter mSceneAnimationAdapter;
     private Scene[] mScenes;
     private int mCurrentScene;
 
     public ScenesMeta(@NonNull ViewGroup root,
-                      @NonNull AnimationAdapter animationAdapter,
+                      @NonNull SceneAnimationAdapter sceneAnimationAdapter,
                       Scene[] scenes,
                       int currentScene) {
         mRoot = root;
-        mAnimationAdapter = animationAdapter;
+        mSceneAnimationAdapter = sceneAnimationAdapter;
         mScenes = scenes;
         mCurrentScene = currentScene;
     }
 
     @NonNull
-    public AnimationAdapter getAnimationAdapter() {
-        return mAnimationAdapter;
+    public SceneAnimationAdapter getSceneAnimationAdapter() {
+        return mSceneAnimationAdapter;
     }
 
     public int getCurrentScene() {
         return mCurrentScene;
     }
 
-    public void setAnimationAdapter(@NonNull AnimationAdapter animationAdapter) {
-        mAnimationAdapter = animationAdapter;
+    public void setSceneAnimationAdapter(@NonNull SceneAnimationAdapter sceneAnimationAdapter) {
+        mSceneAnimationAdapter = sceneAnimationAdapter;
     }
 
     public void setCurrentScene(int currentScene) {

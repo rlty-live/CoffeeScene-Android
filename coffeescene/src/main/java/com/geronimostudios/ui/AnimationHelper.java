@@ -8,11 +8,13 @@ import android.view.View;
  * This helper provides a few static methods for the animations.
  */
 final class AnimationHelper {
+
     private AnimationHelper() {
+        // ignored - not instantiable
     }
 
     /**
-     * Do a smooth fade animation to show a view
+     * Do a smooth fade animation to show a view.
      */
     static void showView(final View view) {
         view.animate()
@@ -26,7 +28,7 @@ final class AnimationHelper {
     }
 
     /**
-     * Do a smooth fade animation to hide a view
+     * Do a smooth fade animation to hide a view.
      */
     static void hideView(final View view) {
         view.animate()

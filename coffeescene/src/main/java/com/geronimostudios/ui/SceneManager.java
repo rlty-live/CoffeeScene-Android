@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.geronimostudios.ui.annotations.AnimationAdapter;
 import com.geronimostudios.ui.annotations.CoffeeScene;
 import com.geronimostudios.ui.annotations.Scene;
 
@@ -17,12 +16,19 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 
 /**
- * Created by jerome on 24/03/17.
+ * <p>The {@link SceneManager} is used to initialize an {@link Activity},
+ * {@link ViewGroup}, {@link android.app.Fragment} or
+ * {@link android.support.v4.app.Fragment} annotated with {@link CoffeeScene}.</p>
+ *
+ * {@link SceneManager} is also used to switch the scenes.
  */
-
 public final class SceneManager {
 
-    private static AnimationAdapter sDefaultAnimationAdapter = new AnimationAdapter() {
+    /**
+     * The default animation adapter.
+     */
+    private static SceneAnimationAdapter sDefaultSceneAnimationAdapter
+            = new SceneAnimationAdapter() {
         @Override
         public void showView(View view, boolean animate) {
             if (animate) {
@@ -41,26 +47,95 @@ public final class SceneManager {
             }
         }
     };
+
+    /**
+     * A dictionary of {@link ScenesMeta} associated with their view, activity or fragment.
+     */
     private static Dictionary<Object, ScenesMeta> sScenesMeta = new Hashtable<>();
 
+    /**
+     * <p>Parse the annotation {@link CoffeeScene} of an {@link Activity}
+     * and add the scenes into the {@link Activity}.</p>
+     *
+     * <p>This method will add each scene into {@link Activity} with
+     * {@link Activity#setContentView(int)} (View)}.</p>
+     *
+     * @param activity an {@link Activity} that has a {@link CoffeeScene}
+     */
     public static void create(@NonNull Activity activity) {
         activity.setContentView(
-                doCreate(activity, activity, sDefaultAnimationAdapter, new FrameLayout(activity))
+                doCreate(
+                        activity,
+                        activity,
+                        sDefaultSceneAnimationAdapter,
+                        new FrameLayout(activity)
+                )
         );
     }
 
-    public static void create(@NonNull Activity activity, @Nullable AnimationAdapter adapter) {
+    /**
+     * <p>Parse the annotation {@link CoffeeScene} of an {@link Activity}
+     * and add the scenes into the {@link Activity}.</p>
+     *
+     * <p>This method will add each scene into {@link Activity} with
+     * {@link Activity#setContentView(int)} (View)}.</p>
+     *
+     * @param activity an {@link Activity} that has a {@link CoffeeScene}
+     * @param adapter The {@link SceneAnimationAdapter} to be used.
+     */
+    public static void create(@NonNull Activity activity,
+                              @Nullable SceneAnimationAdapter adapter) {
         activity.setContentView(
                 doCreate(activity, activity, adapter, new FrameLayout(activity))
         );
     }
 
+    /**
+     * <p>Parse the annotation {@link CoffeeScene} of a {@link ViewGroup}
+     * and add the scenes into the {@link ViewGroup}.</p>
+     *
+     * <p>This method will add each scene into {@link ViewGroup} with
+     * {@link ViewGroup#addView(View)}.</p>
+     *
+     * @param view a {@link ViewGroup} that has a {@link CoffeeScene}
+     */
     public static void create(@NonNull ViewGroup view) {
-        doCreate(view.getContext(), view, sDefaultAnimationAdapter, view);
+        doCreate(view.getContext(), view, sDefaultSceneAnimationAdapter, view);
     }
 
-    public static void create(@NonNull ViewGroup view, @Nullable AnimationAdapter adapter) {
+    /**
+     * <p>Parse the annotation {@link CoffeeScene} of a {@link ViewGroup}
+     * and add the scenes into the {@link ViewGroup}.</p>
+     *
+     * <p>This method will add each scene into {@link ViewGroup} with
+     * {@link ViewGroup#addView(View)}.</p>
+     *
+     * @param view a {@link ViewGroup} that has a {@link CoffeeScene}
+     * @param adapter The {@link SceneAnimationAdapter} to be used.
+     */
+    public static void create(@NonNull ViewGroup view,
+                              @Nullable SceneAnimationAdapter adapter) {
         doCreate(view.getContext(), view, adapter, view);
+    }
+
+    /**
+     * Switch to another {@link Scene}.
+     *
+     * @param activity The parent activity.
+     * @param scene The scene id. See {@link Scene#scene()}.
+     */
+    public static void scene(@NonNull Activity activity, int scene) {
+        doChangeScene(activity, scene);
+    }
+
+    /**
+     * Switch to another {@link Scene}.
+     *
+     * @param view The holder view.
+     * @param scene The scene id. See {@link Scene#scene()}.
+     */
+    public static void scene(@NonNull ViewGroup view, int scene) {
+        doChangeScene(view, scene);
     }
 
     /**
@@ -77,7 +152,7 @@ public final class SceneManager {
      */
     private static ViewGroup doCreate(@NonNull Context context,
                                       @NonNull Object object,
-                                      @Nullable AnimationAdapter adapter,
+                                      @Nullable SceneAnimationAdapter adapter,
                                       @NonNull ViewGroup root) {
         // Retrieve annotations
         CoffeeScene setup = safeGetSetup(object);
@@ -88,7 +163,7 @@ public final class SceneManager {
 
         // Create root node with all scenes
         if (adapter == null) {
-            adapter = sDefaultAnimationAdapter;
+            adapter = sDefaultSceneAnimationAdapter;
         }
         LayoutInflater inflater = LayoutInflater.from(context);
         for (Scene scene : scenes) {
@@ -100,7 +175,7 @@ public final class SceneManager {
         // Save the scene's meta data
         ScenesMeta meta = new ScenesMeta(
                 root,
-                sDefaultAnimationAdapter,
+                sDefaultSceneAnimationAdapter,
                 scenes,
                 defaultScene
         );
@@ -119,7 +194,7 @@ public final class SceneManager {
     }
 
     private static void showOrHideView(boolean show,
-                                       @NonNull AnimationAdapter adapter,
+                                       @NonNull SceneAnimationAdapter adapter,
                                        @NonNull View view,
                                        boolean animate) {
         if (show) {
@@ -130,11 +205,11 @@ public final class SceneManager {
     }
 
     private static CoffeeScene safeGetSetup(@NonNull Object object) {
-        Class<?> zClass = object.getClass();
-        if (!zClass.isAnnotationPresent(CoffeeScene.class)) {
+        Class<?> objClass = object.getClass();
+        if (!objClass.isAnnotationPresent(CoffeeScene.class)) {
             throw new IllegalArgumentException("Annotation @CoffeeScene is missing");
         }
-        return zClass.getAnnotation(CoffeeScene.class);
+        return objClass.getAnnotation(CoffeeScene.class);
     }
 
     private static ScenesMeta safeGetMetaData(@NonNull Object object) {
@@ -149,18 +224,10 @@ public final class SceneManager {
         ScenesMeta meta = safeGetMetaData(object);
 
         ViewGroup root = meta.getRoot();
-        AnimationAdapter adapter = meta.getAnimationAdapter();
+        SceneAnimationAdapter adapter = meta.getSceneAnimationAdapter();
         Scene[] scenes = meta.getScenes();
         for (int index = 0; index < scenes.length; ++index) {
             showOrHideView(scenes[index].scene() == scene, adapter, root.getChildAt(index), true);
         }
-    }
-
-    public static void scene(@NonNull Activity activity, int scene) {
-        doChangeScene(activity, scene);
-    }
-
-    public static void scene(@NonNull ViewGroup view, int scene) {
-        doChangeScene(view, scene);
     }
 }
