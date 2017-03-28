@@ -53,18 +53,18 @@ task findConventions << {
     println project.getConvention()
 }
 
-group = 'com.geronimostudios.ui' //bintray org/group name
+group = 'com.geronimostudios.coffeescene' //bintray org/group name
 version = library_version //version
 
 install {
     repositories.mavenInstaller {
         pom.project {
-            name 'com.geronimostudios.ui'
+            name 'CoffeeScene'
             description 'A simple scene manager for Android'
             url 'https://github.com/geronimoagency/CoffeeScene-Android'
 
             packaging 'aar'
-            groupId 'com.geronimostudios.ui'
+            groupId 'com.geronimostudios.coffeescene'
             artifactId 'coffeescene'
             version library_version
 
@@ -106,7 +106,7 @@ bintray {
 
     pkg {
         repo = 'geronimostudios'
-        name = 'com.geronimostudios.ui.coffeescene'
+        name = 'com.geronimostudios.coffeescene'
         userOrg = 'geronimostudios'
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/geronimoagency/CoffeeScene-Android.git'

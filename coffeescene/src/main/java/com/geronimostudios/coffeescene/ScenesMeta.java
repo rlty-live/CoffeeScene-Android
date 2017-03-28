@@ -1,12 +1,12 @@
-package com.geronimostudios.ui.coffeescene;
+package com.geronimostudios.coffeescene;
 
 import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 
-import com.geronimostudios.ui.coffeescene.annotations.Scene;
+import com.geronimostudios.coffeescene.annotations.Scene;
 
 /**
- * Contains data about a {@link com.geronimostudios.ui.coffeescene.annotations.CoffeeScene}
+ * Contains data about a {@link com.geronimostudios.coffeescene.annotations.CoffeeScene}
  */
 final class ScenesMeta {
     private final ViewGroup mRoot;

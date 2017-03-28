@@ -1,8 +1,8 @@
-package com.geronimostudios.ui.coffeescene;
+package com.geronimostudios.coffeescene;
 
 import android.view.View;
 
-import com.geronimostudios.ui.coffeescene.annotations.Scene;
+import com.geronimostudios.coffeescene.annotations.Scene;
 
 /**
  * {@link SceneAnimationAdapter} can be used to override the

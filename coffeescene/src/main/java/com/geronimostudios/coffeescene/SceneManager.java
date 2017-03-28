@@ -1,4 +1,4 @@
-package com.geronimostudios.ui.coffeescene;
+package com.geronimostudios.coffeescene;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -11,8 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.geronimostudios.ui.coffeescene.annotations.CoffeeScene;
-import com.geronimostudios.ui.coffeescene.annotations.Scene;
+import com.geronimostudios.coffeescene.annotations.CoffeeScene;
+import com.geronimostudios.coffeescene.annotations.Scene;
 
 import java.util.Dictionary;
 import java.util.Hashtable;

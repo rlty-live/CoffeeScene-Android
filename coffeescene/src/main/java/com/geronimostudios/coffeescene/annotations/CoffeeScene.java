@@ -1,4 +1,4 @@
-package com.geronimostudios.ui.coffeescene.annotations;
+package com.geronimostudios.coffeescene.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  * a {@link android.view.ViewGroup}, a {@link android.app.Fragment}
  * or a {@link android.support.v4.app.Fragment}.</p>
  *
- * <p>See {@link com.geronimostudios.ui.coffeescene.SceneManager}.</p>
+ * <p>See {@link com.geronimostudios.coffeescene.SceneManager}.</p>
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.geronimostudios.ui.coffeescene.SceneManager;
-import com.geronimostudios.ui.coffeescene.annotations.CoffeeScene;
-import com.geronimostudios.ui.coffeescene.annotations.Scene;
+import com.geronimostudios.coffeescene.SceneManager;
+import com.geronimostudios.coffeescene.annotations.CoffeeScene;
+import com.geronimostudios.coffeescene.annotations.Scene;
 
 @CoffeeScene({
         @Scene(scene = Scene.MAIN_CONTENT, layout = R.layout.sample_activity_main),

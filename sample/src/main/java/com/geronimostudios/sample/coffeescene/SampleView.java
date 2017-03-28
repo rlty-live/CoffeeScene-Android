@@ -7,9 +7,9 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.geronimostudios.ui.coffeescene.SceneManager;
-import com.geronimostudios.ui.coffeescene.annotations.CoffeeScene;
-import com.geronimostudios.ui.coffeescene.annotations.Scene;
+import com.geronimostudios.coffeescene.SceneManager;
+import com.geronimostudios.coffeescene.annotations.CoffeeScene;
+import com.geronimostudios.coffeescene.annotations.Scene;
 
 @CoffeeScene(
         value = {

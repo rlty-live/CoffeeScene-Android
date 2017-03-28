@@ -1,4 +1,4 @@
-package com.geronimostudios.ui.coffeescene;
+package com.geronimostudios.coffeescene;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
