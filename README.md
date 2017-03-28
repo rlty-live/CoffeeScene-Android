@@ -8,6 +8,17 @@ Sample app
 =======
 The sample app is available in this repository under **sample/**.
 
+
+Gradle
+=======
+Include the dependency [Download (.aar)](https://bintray.com/geronimostudios/geronimostudios/download_file?file_path=com%2Fgeronimostudios%2Fcoffeescene%2Fcoffeescene%2F0.0.1%2Fcoffeescene-0.0.1.aar) :
+
+```groovy
+dependencies {
+    compile 'com.geronimostudios.coffeescene:coffeescene:0.0.1'
+}
+```
+
 Example
 =======
 <img src="preview/video_sample.gif"  height="700">
