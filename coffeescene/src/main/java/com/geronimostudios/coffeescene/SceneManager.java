@@ -16,6 +16,7 @@ import com.geronimostudios.coffeescene.annotations.Scene;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.List;
 
 /**
  * <p>The {@link SceneManager} is used to initialize an {@link Activity},
@@ -304,14 +305,14 @@ public final class SceneManager {
         return meta;
     }
 
-    private static void doChangeScene(@NonNull Object object, int scene) {
+    private static void doChangeScene(@NonNull Object object, int sceneId) {
         ScenesMeta meta = safeGetMetaData(object);
 
         ViewGroup root = meta.getRoot();
         SceneAnimationAdapter adapter = meta.getSceneAnimationAdapter();
-        Scene[] scenes = meta.getScenes();
-        for (int index = 0; index < scenes.length; ++index) {
-            showOrHideView(scenes[index].scene() == scene, adapter, root.getChildAt(index), true);
+        List<Integer> scenesIds = meta.getScenesIds();
+        for (int index = 0; index < scenesIds.size(); ++index) {
+            showOrHideView(scenesIds.get(index) == sceneId, adapter, root.getChildAt(index), true);
         }
     }
 }

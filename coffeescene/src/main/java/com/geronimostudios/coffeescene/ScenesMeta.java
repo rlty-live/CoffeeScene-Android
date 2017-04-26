@@ -5,48 +5,53 @@ import android.view.ViewGroup;
 
 import com.geronimostudios.coffeescene.annotations.Scene;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Contains data about a {@link com.geronimostudios.coffeescene.annotations.CoffeeScene}
  */
 final class ScenesMeta {
     private final ViewGroup mRoot;
-    private @NonNull
-    SceneAnimationAdapter mSceneAnimationAdapter;
-    private Scene[] mScenes;
+    private @NonNull SceneAnimationAdapter mSceneAnimationAdapter;
+    private List<Integer> mScenesIds;
     private int mCurrentScene;
 
-    public ScenesMeta(@NonNull ViewGroup root,
-                      @NonNull SceneAnimationAdapter sceneAnimationAdapter,
-                      Scene[] scenes,
-                      int currentScene) {
+    ScenesMeta(@NonNull ViewGroup root,
+               @NonNull SceneAnimationAdapter sceneAnimationAdapter,
+               Scene[] scenes,
+               int currentScene) {
         mRoot = root;
         mSceneAnimationAdapter = sceneAnimationAdapter;
-        mScenes = scenes;
+        mScenesIds = new ArrayList<>();
+        for (Scene scene : scenes) {
+            mScenesIds.add(scene.scene());
+        }
         mCurrentScene = currentScene;
     }
 
     @NonNull
-    public SceneAnimationAdapter getSceneAnimationAdapter() {
+    SceneAnimationAdapter getSceneAnimationAdapter() {
         return mSceneAnimationAdapter;
     }
 
-    public int getCurrentScene() {
+    int getCurrentScene() {
         return mCurrentScene;
     }
 
-    public void setSceneAnimationAdapter(@NonNull SceneAnimationAdapter sceneAnimationAdapter) {
+    void setSceneAnimationAdapter(@NonNull SceneAnimationAdapter sceneAnimationAdapter) {
         mSceneAnimationAdapter = sceneAnimationAdapter;
     }
 
-    public void setCurrentScene(int currentScene) {
+    void setCurrentScene(int currentScene) {
         mCurrentScene = currentScene;
     }
 
-    public ViewGroup getRoot() {
+    ViewGroup getRoot() {
         return mRoot;
     }
 
-    public Scene[] getScenes() {
-        return mScenes;
+    List<Integer> getScenesIds() {
+        return mScenesIds;
     }
 }
