@@ -229,6 +229,48 @@ public final class SceneManager {
     }
 
     /**
+     * Switch to another {@link Scene}.
+     *
+     * @param activity The parent activity.
+     * @param scene The scene id. See {@link Scene#scene()}.
+     */
+    public static void scene(@NonNull Activity activity, int scene, boolean animate) {
+        doChangeScene(activity, scene, animate);
+    }
+
+    /**
+     * Switch to another {@link Scene}.
+     *
+     * @param view The holder view.
+     * @param scene The scene id. See {@link Scene#scene()}.
+     */
+    public static void scene(@NonNull ViewGroup view, int scene, boolean animate) {
+        doChangeScene(view, scene, animate);
+    }
+
+    /**
+     * Switch to another {@link Scene}.
+     *
+     * @param fragment The holder fragment.
+     * @param scene The scene id. See {@link Scene#scene()}.
+     */
+    public static void scene(@NonNull Fragment fragment, int scene, boolean animate) {
+        doChangeScene(fragment, scene, animate);
+    }
+
+    /**
+     * Switch to another {@link Scene}.
+     *
+     * @param fragment The holder fragment.
+     * @param scene The scene id. See {@link Scene#scene()}.
+     */
+    public static void scene(@NonNull android.support.v4.app.Fragment fragment,
+                             int scene,
+                             boolean animate) {
+        doChangeScene(fragment, scene, animate);
+    }
+
+    /**
      * Parse the annotation {@link CoffeeScene}, of an object.
      * Creates the scenes and add them into a view group.
      * Save the metadata of those scenes into {@link SceneManager#sScenesMeta}.
@@ -305,13 +347,22 @@ public final class SceneManager {
     }
 
     private static void doChangeScene(@NonNull Object object, int scene) {
+        doChangeScene(object, scene, true);
+    }
+
+    private static void doChangeScene(@NonNull Object object, int scene, boolean animate) {
         ScenesMeta meta = safeGetMetaData(object);
 
         ViewGroup root = meta.getRoot();
         SceneAnimationAdapter adapter = meta.getSceneAnimationAdapter();
         Scene[] scenes = meta.getScenes();
         for (int index = 0; index < scenes.length; ++index) {
-            showOrHideView(scenes[index].scene() == scene, adapter, root.getChildAt(index), true);
+            showOrHideView(
+                    scenes[index].scene() == scene,
+                    adapter,
+                    root.getChildAt(index),
+                    animate
+            );
         }
     }
 }
