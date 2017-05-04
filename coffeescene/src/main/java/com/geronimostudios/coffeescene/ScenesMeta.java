@@ -15,10 +15,10 @@ final class ScenesMeta {
     private Scene[] mScenes;
     private int mCurrentScene;
 
-    public ScenesMeta(@NonNull ViewGroup root,
-                      @NonNull SceneAnimationAdapter sceneAnimationAdapter,
-                      Scene[] scenes,
-                      int currentScene) {
+    ScenesMeta(@NonNull ViewGroup root,
+               @NonNull SceneAnimationAdapter sceneAnimationAdapter,
+               Scene[] scenes,
+               int currentScene) {
         mRoot = root;
         mSceneAnimationAdapter = sceneAnimationAdapter;
         mScenes = scenes;
@@ -26,27 +26,27 @@ final class ScenesMeta {
     }
 
     @NonNull
-    public SceneAnimationAdapter getSceneAnimationAdapter() {
+    SceneAnimationAdapter getSceneAnimationAdapter() {
         return mSceneAnimationAdapter;
     }
 
-    public int getCurrentScene() {
+    int getCurrentScene() {
         return mCurrentScene;
     }
 
-    public void setSceneAnimationAdapter(@NonNull SceneAnimationAdapter sceneAnimationAdapter) {
+    void setSceneAnimationAdapter(@NonNull SceneAnimationAdapter sceneAnimationAdapter) {
         mSceneAnimationAdapter = sceneAnimationAdapter;
     }
 
-    public void setCurrentScene(int currentScene) {
+    void setCurrentScene(int currentScene) {
         mCurrentScene = currentScene;
     }
 
-    public ViewGroup getRoot() {
+    ViewGroup getRoot() {
         return mRoot;
     }
 
-    public Scene[] getScenes() {
+    Scene[] getScenes() {
         return mScenes;
     }
 }
