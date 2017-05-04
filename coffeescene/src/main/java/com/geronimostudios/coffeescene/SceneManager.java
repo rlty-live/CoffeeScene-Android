@@ -36,6 +36,7 @@ public final class SceneManager {
             if (animate) {
                 AnimationHelper.showView(view);
             } else {
+                view.setAlpha(1f);
                 view.setVisibility(View.VISIBLE);
             }
         }
@@ -45,6 +46,7 @@ public final class SceneManager {
             if (animate) {
                 AnimationHelper.hideView(view);
             } else {
+                view.setAlpha(0f);
                 view.setVisibility(View.GONE);
             }
         }
