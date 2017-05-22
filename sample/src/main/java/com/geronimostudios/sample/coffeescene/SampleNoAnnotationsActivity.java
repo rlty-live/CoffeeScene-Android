@@ -1,5 +1,7 @@
 package com.geronimostudios.sample.coffeescene;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -55,5 +57,9 @@ public class SampleNoAnnotationsActivity extends AppCompatActivity implements Vi
             default:
                 throw new IllegalArgumentException("Invalid view id");
         }
+    }
+
+    public static void startActivity(Context context) {
+        context.startActivity(new Intent(context, SampleNoAnnotationsActivity.class));
     }
 }

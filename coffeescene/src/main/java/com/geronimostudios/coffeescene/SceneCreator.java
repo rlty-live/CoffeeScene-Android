@@ -1,6 +1,7 @@
 package com.geronimostudios.coffeescene;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,7 +24,7 @@ import java.util.List;
  *          .main(Scene.MAIN_CONTENT)
  *  );</p>
  */
-public class SceneCreator {
+public final class SceneCreator {
     private final Object mReference;
     private Listener mListener;
     private final ViewGroup mRootView;
@@ -52,6 +53,58 @@ public class SceneCreator {
                 (ViewGroup) ((ViewGroup) activity.findViewById(android.R.id.content))
                         .getChildAt(0)
         );
+    }
+
+    /**
+     * Setup by using a {@link Fragment}. The view classes or view ids added by
+     * {@link SceneCreator#add(int, View)} and {@link SceneCreator#add(int, int)}
+     * will be searched into the main layout of the fragment.
+     *
+     * @param fragment the fragment which contains the children.
+     * @return a {@link SceneCreator} for more configurations.
+     */
+    public static SceneCreator with(@NonNull Fragment fragment) {
+        if (fragment.getView() != null) {
+            return new SceneCreator(
+                    fragment,
+                    (ViewGroup) fragment.getView()
+            );
+        } else {
+            throw new NullPointerException("fragment.getView() == null");
+        }
+    }
+
+    /**
+     * Setup by using a {@link android.support.v4.app.Fragment}.
+     * The view classes or view ids added by {@link SceneCreator#add(int, View)}
+     * and {@link SceneCreator#add(int, int)} will be searched into
+     * the main layout of the fragment.
+     *
+     * @param fragment the fragment which contains the children.
+     * @return a {@link SceneCreator} for more configurations.
+     */
+    public static SceneCreator with(@NonNull android.support.v4.app.Fragment fragment) {
+        if (fragment.getView() != null) {
+            return new SceneCreator(
+                    fragment,
+                    (ViewGroup) fragment.getView()
+            );
+        } else {
+            throw new NullPointerException("fragment.getView() == null");
+        }
+    }
+
+    /**
+     * Setup by using a {@link ViewGroup}.
+     * The view classes or view ids added by {@link SceneCreator#add(int, View)}
+     * and {@link SceneCreator#add(int, int)} will be searched into
+     * the provided view group.
+     *
+     * @param viewGroup the fragment which contains the children.
+     * @return a {@link SceneCreator} for more configurations.
+     */
+    public static SceneCreator with(@NonNull ViewGroup viewGroup) {
+        return new SceneCreator(viewGroup, viewGroup);
     }
 
     /**
