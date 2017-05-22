@@ -6,7 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.SparseIntArray;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -207,7 +207,6 @@ public final class SceneManager {
         sScenesMeta.put(
                 creator.getReference(),
                 new ScenesMeta(
-                        creator.getRootView(),
                         adapter == null ? sDefaultSceneAnimationAdapter : adapter,
                         creator.getScenes(),
                         creator.getListener()
@@ -383,17 +382,16 @@ public final class SceneManager {
 
     private static void doChangeScene(@NonNull Object object, int sceneId, boolean animate) {
         ScenesMeta meta = safeGetMetaData(object);
-        ViewGroup root = meta.getRoot();
         SceneAnimationAdapter adapter = meta.getSceneAnimationAdapter();
-        SparseIntArray scenesIds = meta.getScenesIds();
+        SparseArray<View> scenesIdsToViews = meta.getScenesIds();
         Listener listener = meta.getListener();
 
-        for (int i = 0; i < scenesIds.size(); i++) {
+        for (int i = 0; i < scenesIdsToViews.size(); i++) {
             // do change scene
-            int viewPosition = scenesIds.keyAt(i);
-            int viewSceneId = scenesIds.get(viewPosition);
+            int viewSceneId = scenesIdsToViews.keyAt(i);
+            View view = scenesIdsToViews.get(viewSceneId);
             boolean show = viewSceneId == sceneId;
-            showOrHideView(show, adapter, root.getChildAt(viewPosition), animate);
+            showOrHideView(show, adapter, view, animate);
 
             // Call the listener
             if (listener != null) {
