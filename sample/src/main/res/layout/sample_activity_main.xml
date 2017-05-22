@@ -58,5 +58,11 @@
             android:text="@string/sample_with_fragment_v4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/sample_switch_to_existing_layout"
+            android:text="@string/sample_switch_to_existing_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </ScrollView>
