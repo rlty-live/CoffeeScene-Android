@@ -11,4 +11,6 @@
     <string name="sample_with_fragment">Sample with android.app.Fragment</string>
     <string name="sample_with_fragment_v4">Sample with android.support.v4.app.Fragment</string>
     <string name="sample_fragment_title">Sample with fragment</string>
+    <string name="default_generic_error">Fake error, please retry</string>
+    <string name="fake_main_content_text">This is a dummy main content !\nclick here to load more</string>
 </resources>

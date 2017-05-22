@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,6 @@ import com.geronimostudios.coffeescene.annotations.Scene;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
-import java.util.List;
 
 /**
  * <p>The {@link SceneManager} is used to initialize an {@link Activity},
@@ -192,6 +192,67 @@ public final class SceneManager {
     }
 
     /**
+     * Creates the scene manager by providing a {@link SceneCreator}
+     *
+     * @param creator a {@link SceneCreator}
+     */
+    public static void create(@NonNull SceneCreator creator) {
+        // Save the scene's meta data
+        SceneAnimationAdapter adapter = creator.getAdapter();
+        sScenesMeta.put(
+                creator.getReference(),
+                new ScenesMeta(
+                        creator.getRootView(),
+                        adapter == null ? sDefaultSceneAnimationAdapter : adapter,
+                        creator.getScenes(),
+                        creator.getDefaultSceneId()
+                )
+        );
+        if (creator.getDefaultSceneId() != -1) {
+            doChangeScene(creator.getReference(), creator.getDefaultSceneId(), false);
+        }
+    }
+
+    /**
+     * Parse the annotation {@link CoffeeScene}, of an object.
+     * Creates the scenes and add them into a view group.
+     * Save the metadata of those scenes into {@link SceneManager#sScenesMeta}.
+     *
+     * @param context Holding context for the inflater
+     * @param object The associated activity, view or fragments that has a {@link CoffeeScene}
+     * @param adapter The animation adapter to be used.
+     * @param root The root view group in which the scenes will be added.
+     *
+     * @return The root view group that contains the scenes
+     */
+    private static ViewGroup doCreate(@NonNull Context context,
+                                      @NonNull Object object,
+                                      @Nullable SceneAnimationAdapter adapter,
+                                      @NonNull ViewGroup root) {
+        // Retrieve annotations
+        CoffeeScene setup = safeGetSetup(object);
+        Scene[] scenes = setup.value();
+
+        // Save scenes meta data
+        int defaultScene = getValidDefaultScene(setup, scenes);
+
+        // Create root node with all scenes
+        if (adapter == null) {
+            adapter = sDefaultSceneAnimationAdapter;
+        }
+        LayoutInflater inflater = LayoutInflater.from(context);
+        for (Scene scene : scenes) {
+            View view = inflater.inflate(scene.layout(), root, false);
+            showOrHideView(scene.scene() == defaultScene, adapter, view, false);
+            root.addView(view);
+        }
+
+        // Save the scene's meta data
+        sScenesMeta.put(object, new ScenesMeta(root, adapter, scenes, defaultScene));
+        return root;
+    }
+
+    /**
      * Switch to another {@link Scene}.
      *
      * @param activity The parent activity.
@@ -273,45 +334,6 @@ public final class SceneManager {
         doChangeScene(fragment, scene, animate);
     }
 
-    /**
-     * Parse the annotation {@link CoffeeScene}, of an object.
-     * Creates the scenes and add them into a view group.
-     * Save the metadata of those scenes into {@link SceneManager#sScenesMeta}.
-     *
-     * @param context Holding context for the inflater
-     * @param object The associated activity, view or fragments that has a {@link CoffeeScene}
-     * @param adapter The animation adapter to be used.
-     * @param root The root view group in which the scenes will be added.
-     *
-     * @return The root view group that contains the scenes
-     */
-    private static ViewGroup doCreate(@NonNull Context context,
-                                      @NonNull Object object,
-                                      @Nullable SceneAnimationAdapter adapter,
-                                      @NonNull ViewGroup root) {
-        // Retrieve annotations
-        CoffeeScene setup = safeGetSetup(object);
-        Scene[] scenes = setup.value();
-
-        // Save scenes meta data
-        int defaultScene = getValidDefaultScene(setup, scenes);
-
-        // Create root node with all scenes
-        if (adapter == null) {
-            adapter = sDefaultSceneAnimationAdapter;
-        }
-        LayoutInflater inflater = LayoutInflater.from(context);
-        for (Scene scene : scenes) {
-            View view = inflater.inflate(scene.layout(), root, false);
-            showOrHideView(scene.scene() == defaultScene, adapter, view, false);
-            root.addView(view);
-        }
-
-        // Save the scene's meta data
-        sScenesMeta.put(object, new ScenesMeta(root, adapter, scenes, defaultScene));
-        return root;
-    }
-
     private static int getValidDefaultScene(CoffeeScene setup, Scene[] scenes) {
         int defaultScene = setup.defaultScene();
         for (Scene scene : scenes) {
@@ -358,12 +380,15 @@ public final class SceneManager {
 
         ViewGroup root = meta.getRoot();
         SceneAnimationAdapter adapter = meta.getSceneAnimationAdapter();
-        List<Integer> scenesIds = meta.getScenesIds();
-        for (int index = 0; index < scenesIds.size(); ++index) {
+        SparseIntArray scenesIds = meta.getScenesIds();
+
+        for(int i = 0; i < scenesIds.size(); i++) {
+            int viewPosition = scenesIds.keyAt(i);
+            int viewSceneId = scenesIds.get(viewPosition);
             showOrHideView(
-                    scenesIds.get(index) == sceneId,
+                    viewSceneId == sceneId,
                     adapter,
-                    root.getChildAt(index),
+                    root.getChildAt(viewPosition),
                     animate
             );
         }

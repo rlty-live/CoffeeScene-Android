@@ -1,11 +1,13 @@
 package com.geronimostudios.coffeescene;
 
 import android.support.annotation.NonNull;
+import android.support.v4.util.Pair;
+import android.util.SparseIntArray;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.geronimostudios.coffeescene.annotations.Scene;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,7 +16,7 @@ import java.util.List;
 final class ScenesMeta {
     private final ViewGroup mRoot;
     private @NonNull SceneAnimationAdapter mSceneAnimationAdapter;
-    private List<Integer> mScenesIds;
+    private SparseIntArray mScenesIds;
     private int mCurrentScene;
 
     ScenesMeta(@NonNull ViewGroup root,
@@ -23,9 +25,27 @@ final class ScenesMeta {
                int currentScene) {
         mRoot = root;
         mSceneAnimationAdapter = sceneAnimationAdapter;
-        mScenesIds = new ArrayList<>();
-        for (Scene scene : scenes) {
-            mScenesIds.add(scene.scene());
+        mScenesIds = new SparseIntArray();
+        for (int i = 0; i < scenes.length; ++i) {
+            mScenesIds.put(i, scenes[i].scene());
+        }
+        mCurrentScene = currentScene;
+    }
+
+    ScenesMeta(@NonNull ViewGroup root,
+               @NonNull SceneAnimationAdapter sceneAnimationAdapter,
+               @NonNull List<Pair<Integer, View>> scenesIds,
+               int currentScene) {
+        mRoot = root;
+        mSceneAnimationAdapter = sceneAnimationAdapter;
+        mScenesIds = new SparseIntArray();
+        for (Pair<Integer, View> pair : scenesIds) {
+            int position = mRoot.indexOfChild(pair.second);
+            if (position == -1) {
+                throw new IllegalArgumentException("The sceneId " + pair.first +
+                        " is not a child of the root view " + mRoot);
+            }
+            mScenesIds.put(position, pair.first);
         }
         mCurrentScene = currentScene;
     }
@@ -35,23 +55,12 @@ final class ScenesMeta {
         return mSceneAnimationAdapter;
     }
 
-    int getCurrentScene() {
-        return mCurrentScene;
-    }
-
-    void setSceneAnimationAdapter(@NonNull SceneAnimationAdapter sceneAnimationAdapter) {
-        mSceneAnimationAdapter = sceneAnimationAdapter;
-    }
-
-    void setCurrentScene(int currentScene) {
-        mCurrentScene = currentScene;
-    }
-
     ViewGroup getRoot() {
         return mRoot;
     }
 
-    List<Integer> getScenesIds() {
+    @NonNull
+    SparseIntArray getScenesIds() {
         return mScenesIds;
     }
 }
