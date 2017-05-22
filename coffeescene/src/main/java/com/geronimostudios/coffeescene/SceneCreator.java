@@ -185,11 +185,6 @@ public final class SceneCreator {
         return mScenes;
     }
 
-    @NonNull
-    ViewGroup getRootView() {
-        return mRootView;
-    }
-
     @Nullable
     Listener getListener() {
         return mListener;

@@ -13,29 +13,34 @@
         android:src="@mipmap/ic_launcher"
         tools:ignore="ContentDescription"/>
 
-    <TextView
-        android:id="@+id/activity_no_annotations_sample_main_content"
-        android:gravity="center"
-        android:padding="@dimen/default_padding"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/fake_main_content_text" />
+        android:layout_height="match_parent">
 
-    <ProgressBar
-        android:id="@+id/activity_no_annotations_sample_loader"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_gravity="center"
-        android:indeterminate="true" />
+        <TextView
+            android:id="@+id/activity_no_annotations_sample_main_content"
+            android:gravity="center"
+            android:padding="@dimen/default_padding"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/fake_main_content_text" />
 
-    <TextView
-        android:layout_gravity="center"
-        android:id="@+id/activity_no_annotations_sample_placeholder"
-        android:gravity="center"
-        android:padding="@dimen/default_padding"
-        android:layout_marginEnd="@dimen/default_padding"
-        android:layout_marginStart="@dimen/default_padding"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/default_generic_error"/>
+        <ProgressBar
+            android:id="@+id/activity_no_annotations_sample_loader"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:indeterminate="true" />
+
+        <TextView
+            android:layout_gravity="center"
+            android:id="@+id/activity_no_annotations_sample_placeholder"
+            android:gravity="center"
+            android:padding="@dimen/default_padding"
+            android:layout_marginEnd="@dimen/default_padding"
+            android:layout_marginStart="@dimen/default_padding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/default_generic_error"/>
+    </FrameLayout>
 </FrameLayout>
