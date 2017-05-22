@@ -2,6 +2,7 @@ package com.geronimostudios.coffeescene;
 
 import android.app.Activity;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
 import android.view.View;
@@ -11,24 +12,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by jerome on 28/03/17.
+ * <p>This {@link SceneCreator} allows to create scenes from an existing layout.</p>
+ *
+ * <p>Example:
+ * SceneManager.create(
+ *      SceneCreator.with(this)
+ *          .add(Scene.MAIN_CONTENT, R.id.activity_no_annotations_sample_main_content)
+ *          .add(Scene.LOADER, R.id.activity_no_annotations_sample_loader)
+ *          .add(Scene.PLACEHOLDER, R.id.activity_no_annotations_sample_placeholder)
+ *          .main(Scene.MAIN_CONTENT)
+ *  );</p>
  */
-
 public class SceneCreator {
     private final Object mReference;
+    private Listener mListener;
     private final ViewGroup mRootView;
     private @Nullable SceneAnimationAdapter mAdapter;
     private int mDefaultSceneId;
     private List<Pair<Integer, View>> mScenes;
 
-    private SceneCreator(Object reference, ViewGroup rootView) {
+    private SceneCreator(@NonNull Object reference, @NonNull ViewGroup rootView) {
         mReference = reference;
         mRootView = rootView;
         mScenes = new ArrayList<>();
         mDefaultSceneId = -1;
     }
 
-    public static SceneCreator with(Activity activity) {
+    /**
+     * Setup by using an activity. The view classes or view ids added by
+     * {@link SceneCreator#add(int, View)} and {@link SceneCreator#add(int, int)}
+     * will be searched into the main layout of the activity.
+     *
+     * @param activity the reference activity which contains the children.
+     * @return a {@link SceneCreator} for more configurations.
+     */
+    public static SceneCreator with(@NonNull Activity activity) {
         return new SceneCreator(
                 activity,
                 (ViewGroup) ((ViewGroup) activity.findViewById(android.R.id.content))
@@ -36,16 +54,46 @@ public class SceneCreator {
         );
     }
 
-    public SceneCreator animation(SceneAnimationAdapter adapter) {
+    /**
+     * Change the animation adapter.
+     *
+     * @param adapter the new animation adapter
+     * @return a {@link SceneCreator} for more configurations.
+     */
+    public SceneCreator animation(@Nullable SceneAnimationAdapter adapter) {
         mAdapter = adapter;
         return this;
     }
 
+    /**
+     * Add a listener. See {@link Listener} and {@link CoffeeSceneListenerAdapter}.
+     *
+     * @param listener the new listener
+     * @return a {@link SceneCreator} for more configurations.
+     */
+    public SceneCreator listener(@Nullable Listener listener) {
+        mListener = listener;
+        return this;
+    }
+
+    /**
+     * Change the default view.
+     *
+     * @param defaultSceneId the default sceneId.
+     * @return a {@link SceneCreator} for more configurations.
+     */
     public SceneCreator main(int defaultSceneId) {
         mDefaultSceneId = defaultSceneId;
         return this;
     }
 
+    /**
+     * Create a new scene by providing a view and sceneId.
+     *
+     * @param sceneId the new sceneId
+     * @param view the view associated the the sceneId.
+     * @return a {@link SceneCreator} for more configurations.
+     */
     public SceneCreator add(int sceneId, View view) {
         if (view == null) {
             throw new NullPointerException("Invalid view scene. (view == null");
@@ -54,10 +102,18 @@ public class SceneCreator {
         return this;
     }
 
+    /**
+     * Create a new scene by providing a view id and sceneId.
+     *
+     * @param sceneId the new sceneId
+     * @param idRes the view id associated the the sceneId.
+     * @return a {@link SceneCreator} for more configurations.
+     */
     public SceneCreator add(int sceneId, @IdRes int idRes) {
         return add(sceneId, mRootView.findViewById(idRes));
     }
 
+    @NonNull
     Object getReference() {
         return mReference;
     }
@@ -71,11 +127,18 @@ public class SceneCreator {
         return mDefaultSceneId;
     }
 
+    @NonNull
     List<Pair<Integer, View>> getScenes() {
         return mScenes;
     }
 
+    @NonNull
     ViewGroup getRootView() {
         return mRootView;
+    }
+
+    @Nullable
+    Listener getListener() {
+        return mListener;
     }
 }

@@ -73,7 +73,8 @@ public final class SceneManager {
                         activity,
                         activity,
                         sDefaultSceneAnimationAdapter,
-                        new FrameLayout(activity)
+                        new FrameLayout(activity),
+                        null
                 )
         );
     }
@@ -91,7 +92,7 @@ public final class SceneManager {
     public static void create(@NonNull Activity activity,
                               @Nullable SceneAnimationAdapter adapter) {
         activity.setContentView(
-                doCreate(activity, activity, adapter, new FrameLayout(activity))
+                doCreate(activity, activity, adapter, new FrameLayout(activity), null)
         );
     }
 
@@ -105,7 +106,7 @@ public final class SceneManager {
      * @param view a {@link ViewGroup} that has a {@link CoffeeScene}
      */
     public static void create(@NonNull ViewGroup view) {
-        doCreate(view.getContext(), view, sDefaultSceneAnimationAdapter, view);
+        doCreate(view.getContext(), view, sDefaultSceneAnimationAdapter, view, null);
     }
 
     /**
@@ -120,7 +121,7 @@ public final class SceneManager {
      */
     public static void create(@NonNull ViewGroup view,
                               @Nullable SceneAnimationAdapter adapter) {
-        doCreate(view.getContext(), view, adapter, view);
+        doCreate(view.getContext(), view, adapter, view, null);
     }
 
     /**
@@ -135,7 +136,8 @@ public final class SceneManager {
                 fragment.getActivity(),
                 fragment,
                 sDefaultSceneAnimationAdapter,
-                new FrameLayout(fragment.getActivity())
+                new FrameLayout(fragment.getActivity()),
+                null
         );
     }
 
@@ -153,7 +155,8 @@ public final class SceneManager {
                 fragment.getActivity(),
                 fragment,
                 adapter,
-                new FrameLayout(fragment.getActivity())
+                new FrameLayout(fragment.getActivity()),
+                null
         );
     }
 
@@ -169,7 +172,8 @@ public final class SceneManager {
                 fragment.getActivity(),
                 fragment,
                 sDefaultSceneAnimationAdapter,
-                new FrameLayout(fragment.getActivity())
+                new FrameLayout(fragment.getActivity()),
+                null
         );
     }
 
@@ -187,12 +191,13 @@ public final class SceneManager {
                 fragment.getActivity(),
                 fragment,
                 adapter,
-                new FrameLayout(fragment.getActivity())
+                new FrameLayout(fragment.getActivity()),
+                null
         );
     }
 
     /**
-     * Creates the scene manager by providing a {@link SceneCreator}
+     * Creates the scene manager by providing a {@link SceneCreator}.
      *
      * @param creator a {@link SceneCreator}
      */
@@ -205,7 +210,7 @@ public final class SceneManager {
                         creator.getRootView(),
                         adapter == null ? sDefaultSceneAnimationAdapter : adapter,
                         creator.getScenes(),
-                        creator.getDefaultSceneId()
+                        creator.getListener()
                 )
         );
         if (creator.getDefaultSceneId() != -1) {
@@ -228,7 +233,8 @@ public final class SceneManager {
     private static ViewGroup doCreate(@NonNull Context context,
                                       @NonNull Object object,
                                       @Nullable SceneAnimationAdapter adapter,
-                                      @NonNull ViewGroup root) {
+                                      @NonNull ViewGroup root,
+                                      @Nullable Listener listener) {
         // Retrieve annotations
         CoffeeScene setup = safeGetSetup(object);
         Scene[] scenes = setup.value();
@@ -248,7 +254,7 @@ public final class SceneManager {
         }
 
         // Save the scene's meta data
-        sScenesMeta.put(object, new ScenesMeta(root, adapter, scenes, defaultScene));
+        sScenesMeta.put(object, new ScenesMeta(root, adapter, scenes, listener));
         return root;
     }
 
@@ -377,20 +383,31 @@ public final class SceneManager {
 
     private static void doChangeScene(@NonNull Object object, int sceneId, boolean animate) {
         ScenesMeta meta = safeGetMetaData(object);
-
         ViewGroup root = meta.getRoot();
         SceneAnimationAdapter adapter = meta.getSceneAnimationAdapter();
         SparseIntArray scenesIds = meta.getScenesIds();
+        Listener listener = meta.getListener();
 
-        for(int i = 0; i < scenesIds.size(); i++) {
+        for (int i = 0; i < scenesIds.size(); i++) {
+            // do change scene
             int viewPosition = scenesIds.keyAt(i);
             int viewSceneId = scenesIds.get(viewPosition);
-            showOrHideView(
-                    viewSceneId == sceneId,
-                    adapter,
-                    root.getChildAt(viewPosition),
-                    animate
-            );
+            boolean show = viewSceneId == sceneId;
+            showOrHideView(show, adapter, root.getChildAt(viewPosition), animate);
+
+            // Call the listener
+            if (listener != null) {
+                if (show) {
+                    listener.onSceneDisplayed(sceneId);
+                } else {
+                    listener.onSceneHidden(sceneId);
+                }
+            }
+        }
+
+        // Call the listener
+        if (listener != null) {
+            listener.onSceneChanged(sceneId);
         }
     }
 }

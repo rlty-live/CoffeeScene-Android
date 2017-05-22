@@ -3,7 +3,9 @@ package com.geronimostudios.sample.coffeescene;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
+import com.geronimostudios.coffeescene.CoffeeSceneListenerAdapter;
 import com.geronimostudios.coffeescene.SceneCreator;
 import com.geronimostudios.coffeescene.SceneManager;
 import com.geronimostudios.coffeescene.annotations.Scene;
@@ -20,6 +22,17 @@ public class SampleNoAnnotationsActivity extends AppCompatActivity implements Vi
                         .add(Scene.LOADER, R.id.activity_no_annotations_sample_loader)
                         .add(Scene.PLACEHOLDER, R.id.activity_no_annotations_sample_placeholder)
                         .main(Scene.MAIN_CONTENT)
+                        .animation(null)
+                        .listener(new CoffeeSceneListenerAdapter() {
+                            @Override
+                            public void onSceneChanged(int sceneId) {
+                                Toast.makeText(
+                                        SampleNoAnnotationsActivity.this,
+                                        "New scene " + sceneId,
+                                        Toast.LENGTH_SHORT
+                                ).show();
+                            }
+                        })
         );
 
         findViewById(R.id.activity_no_annotations_sample_main_content).setOnClickListener(this);
