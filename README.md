@@ -6,7 +6,18 @@ This library can be usefull if you want to switch from a spinner loader to your 
 
 Sample app
 =======
-The sample app is available in this repository under **sample/**.
+The sample app is available in this repository under **sample/**.<br>
+You can also try it on Google Play : https://play.google.com/store/apps/details?id=com.geronimostudios.sample.coffeescene
+
+Gradle
+=======
+Include the dependency [Download (.aar)](https://bintray.com/geronimostudios/geronimostudios/download_file?file_path=com%2Fgeronimostudios%2Fcoffeescene%2Fcoffeescene%2F0.0.1%2Fcoffeescene-0.0.1.aar) :
+
+```groovy
+dependencies {
+    compile 'com.geronimostudios.coffeescene:coffeescene:0.0.1'
+}
+```
 
 Example
 =======
@@ -160,7 +171,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
 License
 ======
 ```
-Copyright (C) 2014 Geronimo Studios
+Copyright (C) 2017 Geronimo
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
