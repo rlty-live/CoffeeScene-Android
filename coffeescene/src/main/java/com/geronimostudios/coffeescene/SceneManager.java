@@ -224,7 +224,7 @@ public final class SceneManager {
     }
 
     /**
-     * <p>Release all reference linked with an {@link Activity}</p>
+     * <p>Release all reference linked with an {@link Activity}.</p>
      *
      * @param activity an {@link Activity} that has called {@link #create(Activity)}
      */
@@ -233,7 +233,7 @@ public final class SceneManager {
     }
 
     /**
-     * <p>Release all reference linked with an {@link android.support.v4.app.Fragment}</p>
+     * <p>Release all reference linked with an {@link android.support.v4.app.Fragment}.</p>
      *
      * @param fragment an {@link Activity} that has called
      * {@link #create(android.support.v4.app.Fragment)}
@@ -243,7 +243,7 @@ public final class SceneManager {
     }
 
     /**
-     * <p>Release all reference linked with an {@link Fragment}</p>
+     * <p>Release all reference linked with an {@link Fragment}.</p>
      *
      * @param fragment an {@link Activity} that has called {@link #create(Fragment)}
      */
@@ -252,7 +252,7 @@ public final class SceneManager {
     }
 
     /**
-     * <p>Release all reference linked with an {@link ViewGroup}</p>
+     * <p>Release all reference linked with an {@link ViewGroup}.</p>
      *
      * @param view an {@link Activity} that has called {@link #create(ViewGroup)}
      */
