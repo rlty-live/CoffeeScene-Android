@@ -66,4 +66,10 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
                 throw new IllegalArgumentException("Nope");
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SceneManager.release(this);
+    }
 }

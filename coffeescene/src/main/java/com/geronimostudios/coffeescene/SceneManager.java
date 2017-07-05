@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.util.Pair;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +16,9 @@ import android.widget.FrameLayout;
 import com.geronimostudios.coffeescene.annotations.CoffeeScene;
 import com.geronimostudios.coffeescene.annotations.Scene;
 
-import java.util.Dictionary;
-import java.util.Hashtable;
+import java.lang.ref.WeakReference;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * <p>The {@link SceneManager} is used to initialize an {@link Activity},
@@ -56,7 +58,7 @@ public final class SceneManager {
     /**
      * A dictionary of {@link ScenesMeta} associated with their view, activity or fragment.
      */
-    private static Dictionary<Object, ScenesMeta> sScenesMeta = new Hashtable<>();
+    private static List<Pair<WeakReference<Object>, ScenesMeta>> sScenesMeta = new LinkedList<>();
 
     /**
      * <p>Parse the annotation {@link CoffeeScene} of an {@link Activity}
@@ -204,16 +206,64 @@ public final class SceneManager {
     public static void create(@NonNull SceneCreator creator) {
         // Save the scene's meta data
         SceneAnimationAdapter adapter = creator.getAdapter();
-        sScenesMeta.put(
-                creator.getReference(),
+        sScenesMeta.add(Pair.create(
+                new WeakReference<>(creator.getReference()),
                 new ScenesMeta(
                         adapter == null ? sDefaultSceneAnimationAdapter : adapter,
                         creator.getScenes(),
                         creator.getListener()
-                )
+                ))
         );
         if (creator.getDefaultSceneId() != -1) {
-            doChangeScene(creator.getReference(), creator.getDefaultSceneId(), false);
+            doChangeScene(
+                    creator.getReference(),
+                    creator.getDefaultSceneId(),
+                    false
+            );
+        }
+    }
+
+    /**
+     * <p>Release all reference linked with an {@link Activity}</p>
+     *
+     * @param activity an {@link Activity} that has called {@link #create(Activity)}
+     */
+    public static void release(@NonNull Activity activity) {
+        releaseMeta(activity);
+    }
+
+    /**
+     * <p>Release all reference linked with an {@link android.support.v4.app.Fragment}</p>
+     *
+     * @param fragment an {@link Activity} that has called
+     * {@link #create(android.support.v4.app.Fragment)}
+     */
+    public static void release(@NonNull android.support.v4.app.Fragment fragment) {
+        releaseMeta(fragment);
+    }
+
+    /**
+     * <p>Release all reference linked with an {@link Fragment}</p>
+     *
+     * @param fragment an {@link Activity} that has called {@link #create(Fragment)}
+     */
+    public static void release(@NonNull Fragment fragment) {
+        releaseMeta(fragment);
+    }
+
+    /**
+     * <p>Release all reference linked with an {@link ViewGroup}</p>
+     *
+     * @param view an {@link Activity} that has called {@link #create(ViewGroup)}
+     */
+    public static void release(@NonNull ViewGroup view) {
+        releaseMeta(view);
+    }
+
+    private static void releaseMeta(@NonNull Object object) {
+        Pair<WeakReference<Object>, ScenesMeta> node = safeGetMetaPair(object);
+        if (node != null) {
+            sScenesMeta.remove(node);
         }
     }
 
@@ -253,7 +303,10 @@ public final class SceneManager {
         }
 
         // Save the scene's meta data
-        sScenesMeta.put(object, new ScenesMeta(root, adapter, scenes, listener));
+        sScenesMeta.add(Pair.create(
+                new WeakReference<>(object),
+                new ScenesMeta(root, adapter, scenes, listener)
+        ));
         return root;
     }
 
@@ -368,12 +421,24 @@ public final class SceneManager {
         return objClass.getAnnotation(CoffeeScene.class);
     }
 
-    private static ScenesMeta safeGetMetaData(@NonNull Object object) {
-        ScenesMeta meta = sScenesMeta.get(object);
-        if (meta == null) {
-            throw new IllegalArgumentException("Scene meta not found");
+    private static @Nullable ScenesMeta safeGetMetaData(@NonNull Object object) {
+        Pair<WeakReference<Object>, ScenesMeta> node = safeGetMetaPair(object);
+        if (node != null) {
+            return node.second;
         }
-        return meta;
+        return null;
+    }
+
+    private static @Nullable Pair<WeakReference<Object>, ScenesMeta>
+    safeGetMetaPair(@NonNull Object object) {
+        for (Pair<WeakReference<Object>, ScenesMeta> pair : sScenesMeta) {
+            if (pair.first != null) {
+                if (pair.first.get().equals(object)) {
+                    return pair;
+                }
+            }
+        }
+        return null;
     }
 
     private static void doChangeScene(@NonNull Object object, int sceneId) {
@@ -382,6 +447,9 @@ public final class SceneManager {
 
     private static void doChangeScene(@NonNull Object object, int sceneId, boolean animate) {
         ScenesMeta meta = safeGetMetaData(object);
+        if (meta == null) {
+            return;
+        }
         SceneAnimationAdapter adapter = meta.getSceneAnimationAdapter();
         SparseArray<View> scenesIdsToViews = meta.getScenesIds();
         Listener listener = meta.getListener();

@@ -59,6 +59,12 @@ public class SampleNoAnnotationsActivity extends AppCompatActivity implements Vi
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SceneManager.release(this);
+    }
+
     public static void startActivity(Context context) {
         context.startActivity(new Intent(context, SampleNoAnnotationsActivity.class));
     }

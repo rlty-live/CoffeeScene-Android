@@ -57,4 +57,10 @@ public class SampleFragment extends DialogFragment implements View.OnClickListen
                 throw new IllegalArgumentException("Nope");
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        SceneManager.release(this);
+    }
 }

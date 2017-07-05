@@ -69,4 +69,9 @@ public class SampleView extends FrameLayout implements View.OnClickListener {
                 throw new IllegalArgumentException("Nope");
         }
     }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+    }
 }
