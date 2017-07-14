@@ -40,9 +40,9 @@ public final class SceneCreator {
     }
 
     /**
-     * Setup by using an activity. The view classes or view ids added by
+     * Setup by using an Object. The view classes or view ids added by
      * {@link SceneCreator#add(int, View)} and {@link SceneCreator#add(int, int)}
-     * will be searched into the main layout of the activity.
+     * will be searched into the parameter rootView.
      *
      * @param reference the reference that will be used to change scene.
      * @param rootView the view group that holds the scenes anchors.

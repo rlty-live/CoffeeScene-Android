@@ -61,11 +61,8 @@ public final class SceneManager {
     private static List<Pair<WeakReference<Object>, ScenesMeta>> sScenesMeta = new LinkedList<>();
 
     /**
-     * <p>Parse the annotation {@link CoffeeScene} of a {@link ViewGroup}
-     * and add the scenes into the {@link ViewGroup}.</p>
-     *
-     * <p>This method will add each scene into {@link ViewGroup} with
-     * {@link ViewGroup#addView(View)}.</p>
+     * <p>Parse the annotation {@link CoffeeScene} of an Object
+     * and creates the scenes.</p>
      *
      * @param context the holding context used to inflate the views.
      * @param reference an object that has a {@link CoffeeScene}
@@ -81,11 +78,8 @@ public final class SceneManager {
     }
 
     /**
-     * <p>Parse the annotation {@link CoffeeScene} of a {@link ViewGroup}
-     * and add the scenes into the {@link ViewGroup}.</p>
-     *
-     * <p>This method will add each scene into {@link ViewGroup} with
-     * {@link ViewGroup#addView(View)}.</p>
+     * <p>Parse the annotation {@link CoffeeScene} of an Object
+     * and creates the scenes.</p>
      *
      * @param context the holding context used to inflate the views.
      * @param reference an object that has a {@link CoffeeScene}
@@ -351,6 +345,26 @@ public final class SceneManager {
                 new ScenesMeta(root, adapter, scenes, listener)
         ));
         return root;
+    }
+
+    /**
+     * Switch to another {@link Scene}.
+     *
+     * @param reference The reference.
+     * @param scene The scene id. See {@link Scene#scene()}.
+     */
+    public static void scene(@NonNull Object reference, int scene) {
+        doChangeScene(reference, scene);
+    }
+
+    /**
+     * Switch to another {@link Scene}.
+     *
+     * @param reference The reference.
+     * @param scene The scene id. See {@link Scene#scene()}.
+     */
+    public static void scene(@NonNull Object reference, int scene, boolean animate) {
+        doChangeScene(reference, scene, animate);
     }
 
     /**
