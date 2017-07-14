@@ -11,11 +11,11 @@ You can also try it on Google Play : https://play.google.com/store/apps/details?
 
 Gradle
 =======
-Include the dependency [Download (.aar)](https://bintray.com/geronimostudios/geronimostudios/download_file?file_path=com%2Fgeronimostudios%2Fcoffeescene%2Fcoffeescene%2F0.0.1%2Fcoffeescene-0.0.1.aar) :
+Include the dependency [Download (.aar)](https://bintray.com/geronimostudios/geronimostudios/download_file?file_path=com%2Fgeronimostudios%2Fcoffeescene%2Fcoffeescene%2F0.0.6%2Fcoffeescene-0.0.6.aar) :
 
 ```groovy
 dependencies {
-    compile 'com.geronimostudios.coffeescene:coffeescene:0.0.1'
+    compile 'com.geronimostudios.coffeescene:coffeescene:0.0.6'
 }
 ```
 
@@ -23,9 +23,38 @@ Example
 =======
 <img src="preview/video_sample.gif"  height="700">
 
-How to use
+How to use with a SceneCreator
 ==========
+You can use the **SceneCreator** with an activity, viewgroup or fragment.<br>
+You have to inflate your viewgroup, fragment or call _setContentView(...)_ in your activity before using the **SceneCreator**.<br>
+The SceneCreator is useful if the anchors of your scenes aren't at the root of your layout.<br>
 
+```java
+public class SampleNoAnnotationsActivity extends AppCompatActivity implements View.OnClickListener {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_no_annotations_sample);
+        
+        SceneManager.create(
+                SceneCreator.with(this)
+                        .add(Scene.MAIN_CONTENT, R.id.activity_no_annotations_sample_main_content)
+                        .add(Scene.LOADER, R.id.activity_no_annotations_sample_loader)
+                        .add(Scene.PLACEHOLDER, R.id.activity_no_annotations_sample_placeholder)
+                        .add(EMPTY_RECYCLER_PLACEHOLDER, R.id.activity_no_annotations_sample_empty_placeholder)
+                        .listener(this)
+                        .animation(this)
+                        .main(Scene.LOADER)
+        );
+    }
+...
+}
+```
+With a SceneCreator the scenes are registered by calling **.add** with an unique identifier and the id of the viewgroup that holds the scene.
+
+How to use with annotations only
+==========
 You have to declare your **scenes** in your activity, viewgroup or fragment.
 Each scene requires an unique identifier and a valid layout resource.
 
@@ -35,20 +64,6 @@ Each scene requires an unique identifier and a valid layout resource.
         @Scene(scene = Scene.LOADER, layout = R.layout.loader),
         @Scene(scene = Scene.PLACEHOLDER, layout = R.layout.placeholder)
 })
-public class MainActivity extends Activity {
-    ...
-}
-```
-
-The class **Scene** provides a few scene's identifiers : _Scene.MAIN_CONTENT, Scene.LOADER and Scene.PLACEHOLDER_.<br>
-You are free to use it or not, but be sure that each identifier is unique.
-
-Setup with Activities
----------------------
-Just call **SceneManager.create(this);**. You don't need to call setContentView();
-
-```java
-...
 public class MainActivity extends Activity {
 
     @Override
@@ -62,44 +77,12 @@ public class MainActivity extends Activity {
 }
 ```
 
-Setup with ViewGroup
---------------------
-Just call **SceneManager.create(this);**. All scenes will be automatically created and added to your viewgroup.
+The class **Scene** provides a few scene's identifiers : _Scene.MAIN_CONTENT, Scene.LOADER and Scene.PLACEHOLDER_.<br>
+You are free to use it or not, but be sure that each identifier is unique.
 
-```java
-...
-public class SampleView extends FrameLayout implements View.OnClickListener {
-    public SampleView(Context context) {
-        super(context);
-        init(context);
-    }
-
-    private void init(Context context) {
-        SceneManager.create(this); // Same thing than for activities
-    }
-    
-    ...
-}
-```
-
-Setup with Fragments
----------------------
-With fragments **SceneManager.create(this)** will returns the root view that you have to return with **onCreateView**
-
-```java
-...
-public class SampleFragment extends DialogFragment implements View.OnClickListener {
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = SceneManager.create(this);
-        ...
-        return root;
-    }
-}
-
-```
+**Activities**: Just call _SceneManager.create(this);_. You don't need to call setContentView();<br>
+**ViewGroup**: Just call _SceneManager.create(this);_. All scenes will be automatically created and added to your viewgroup.<br>
+**Fragments**: With fragments _SceneManager.create(this)_ will returns the view that must be returned by **onCreateView**<br>
 
 Change the current scene
 ------------------------
@@ -126,6 +109,25 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
     }
 }
 ```
+
+Release your scenes
+------------------------
+Don't forget to release your scenes.
+
+```java
+...
+public class SampleActivity extends AppCompatActivity implements View.OnClickListener {
+    ...
+    
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SceneManager.release(this);
+    }
+    ...
+}
+```
+
 
 Full example
 ------------------------
@@ -164,6 +166,12 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             ...
         }
+    }
+    
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SceneManager.release(this);
     }
 }
 ```
