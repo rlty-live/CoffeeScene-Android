@@ -447,12 +447,21 @@ public final class SceneManager {
 
     private static void showOrHideView(boolean show,
                                        @NonNull SceneAnimationAdapter adapter,
-                                       @NonNull View view,
+                                       @NonNull List<View> views,
+                                       boolean animate) {
+        for (View view : views) {
+            showOrHideView(show, adapter, view, animate);
+        }
+    }
+
+    private static void showOrHideView(boolean show,
+                                       @NonNull SceneAnimationAdapter adapter,
+                                       @NonNull View views,
                                        boolean animate) {
         if (show) {
-            adapter.showView(view, animate);
+            adapter.showView(views, animate);
         } else {
-            adapter.hideView(view, animate);
+            adapter.hideView(views, animate);
         }
     }
 
@@ -494,15 +503,15 @@ public final class SceneManager {
             return;
         }
         SceneAnimationAdapter adapter = meta.getSceneAnimationAdapter();
-        SparseArray<View> scenesIdsToViews = meta.getScenesIds();
+        SparseArray<List<View>> scenesIdsToViews = meta.getScenesIdsToViews();
         Listener listener = meta.getListener();
 
         for (int i = 0; i < scenesIdsToViews.size(); i++) {
             // do change scene
             int viewSceneId = scenesIdsToViews.keyAt(i);
-            View view = scenesIdsToViews.get(viewSceneId);
+            List<View> views = scenesIdsToViews.get(viewSceneId);
             boolean show = viewSceneId == sceneId;
-            showOrHideView(show, adapter, view, animate);
+            showOrHideView(show, adapter, views, animate);
 
             // Call the listener
             if (listener != null) {

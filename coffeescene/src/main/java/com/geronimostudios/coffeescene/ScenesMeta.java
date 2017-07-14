@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.geronimostudios.coffeescene.annotations.Scene;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ import java.util.List;
  */
 final class ScenesMeta {
     private @NonNull SceneAnimationAdapter mSceneAnimationAdapter;
-    private SparseArray<View> mScenesIdsToViews;
+    private SparseArray<List<View>> mScenesIdsToViews;
     private Listener mListener;
 
     ScenesMeta(@NonNull ViewGroup root,
@@ -27,7 +28,13 @@ final class ScenesMeta {
         mListener = listener;
         mScenesIdsToViews = new SparseArray<>();
         for (int i = 0; i < scenes.length; ++i) {
-            mScenesIdsToViews.put(scenes[i].scene(), root.getChildAt(i));
+            int sceneId = scenes[i].scene();
+            List<View> list = mScenesIdsToViews.get(sceneId);
+            if (list == null) {
+                list = new ArrayList<>();
+                mScenesIdsToViews.put(sceneId, list);
+            }
+            list.add(root.getChildAt(i));
         }
     }
 
@@ -38,7 +45,12 @@ final class ScenesMeta {
         mListener = listener;
         mScenesIdsToViews = new SparseArray<>();
         for (Pair<Integer, View> pair : scenesIds) {
-            mScenesIdsToViews.put(pair.first, pair.second);
+            List<View> list = mScenesIdsToViews.get(pair.first);
+            if (list == null) {
+                list = new ArrayList<>();
+                mScenesIdsToViews.put(pair.first, list);
+            }
+            list.add(pair.second);
         }
     }
 
@@ -48,7 +60,7 @@ final class ScenesMeta {
     }
 
     @NonNull
-    SparseArray<View> getScenesIds() {
+    SparseArray<List<View>> getScenesIdsToViews() {
         return mScenesIdsToViews;
     }
 

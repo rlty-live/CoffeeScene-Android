@@ -21,6 +21,7 @@ public class SampleNoAnnotationsActivity extends AppCompatActivity implements Vi
         SceneManager.create(
                 SceneCreator.with(this)
                         .add(Scene.MAIN_CONTENT, R.id.activity_no_annotations_sample_main_content)
+                        .add(Scene.MAIN_CONTENT, R.id.activity_no_annotations_sample_main_content_another_view)
                         .add(Scene.LOADER, R.id.activity_no_annotations_sample_loader)
                         .add(Scene.PLACEHOLDER, R.id.activity_no_annotations_sample_placeholder)
                         .main(Scene.MAIN_CONTENT)

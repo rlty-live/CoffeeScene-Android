@@ -10,6 +10,7 @@ import com.geronimostudios.coffeescene.annotations.Scene;
 
 @CoffeeScene({
         @Scene(scene = Scene.MAIN_CONTENT, layout = R.layout.sample_activity_main),
+        @Scene(scene = Scene.MAIN_CONTENT, layout = R.layout.sample_activity_main_second_anchor),
         @Scene(scene = Scene.LOADER, layout = R.layout.loader),
         @Scene(scene = Scene.PLACEHOLDER, layout = R.layout.placeholder),
         @Scene(scene = SampleActivity.SAMPLE_WITH_VIEW, layout = R.layout.sample_with_view)

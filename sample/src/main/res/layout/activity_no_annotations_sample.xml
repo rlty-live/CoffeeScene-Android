@@ -43,4 +43,13 @@
             android:layout_height="wrap_content"
             android:text="@string/default_generic_error"/>
     </FrameLayout>
+
+    <ImageView
+        android:id="@+id/activity_no_annotations_sample_main_content_another_view"
+        android:layout_margin="@dimen/default_padding"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@mipmap/ic_launcher"
+        tools:ignore="ContentDescription"/>
 </FrameLayout>
