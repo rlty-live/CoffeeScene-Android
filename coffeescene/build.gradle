@@ -3,7 +3,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 apply from: '../config/quality.gradle'
 
-String library_version = '0.0.6'
+String library_version = '0.0.7'
 
 android {
     compileSdkVersion 25
