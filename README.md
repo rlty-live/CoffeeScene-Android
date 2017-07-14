@@ -11,11 +11,11 @@ You can also try it on Google Play : https://play.google.com/store/apps/details?
 
 Gradle
 =======
-Include the dependency [Download (.aar)](https://bintray.com/geronimostudios/geronimostudios/download_file?file_path=com%2Fgeronimostudios%2Fcoffeescene%2Fcoffeescene%2F0.0.6%2Fcoffeescene-0.0.6.aar) :
+Include the dependency [Download (.aar)](https://bintray.com/geronimostudios/geronimostudios/download_file?file_path=com%2Fgeronimostudios%2Fcoffeescene%2Fcoffeescene%2F0.0.7%2Fcoffeescene-0.0.7.aar) :
 
 ```groovy
 dependencies {
-    compile 'com.geronimostudios.coffeescene:coffeescene:0.0.6'
+    compile 'com.geronimostudios.coffeescene:coffeescene:0.0.7'
 }
 ```
 
@@ -40,6 +40,7 @@ public class SampleNoAnnotationsActivity extends AppCompatActivity implements Vi
         SceneManager.create(
                 SceneCreator.with(this)
                         .add(Scene.MAIN_CONTENT, R.id.activity_no_annotations_sample_main_content)
+                        .add(Scene.MAIN_CONTENT, R.id.activity_no_annotations_sample_main_content_another_view) // you can add many layouts to the same scene id.
                         .add(Scene.LOADER, R.id.activity_no_annotations_sample_loader)
                         .add(Scene.PLACEHOLDER, R.id.activity_no_annotations_sample_placeholder)
                         .add(EMPTY_RECYCLER_PLACEHOLDER, R.id.activity_no_annotations_sample_empty_placeholder)
@@ -56,11 +57,12 @@ With a SceneCreator the scenes are registered by calling **.add** with an unique
 How to use with annotations only
 ==========
 You have to declare your **scenes** in your activity, viewgroup or fragment.
-Each scene requires an unique identifier and a valid layout resource.
+Each scene requires an unique identifier (sceneId) and a valid layout resource.
 
 ```java
 @CoffeeScene({
         @Scene(scene = Scene.MAIN_CONTENT, layout = R.layout.sample_activity_main),
+        @Scene(scene = Scene.MAIN_CONTENT, layout = R.layout.sample_activity_main_second_anchor), // you can add many layouts to the same scene id.
         @Scene(scene = Scene.LOADER, layout = R.layout.loader),
         @Scene(scene = Scene.PLACEHOLDER, layout = R.layout.placeholder)
 })
