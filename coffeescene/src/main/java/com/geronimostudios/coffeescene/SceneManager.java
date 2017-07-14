@@ -61,6 +61,49 @@ public final class SceneManager {
     private static List<Pair<WeakReference<Object>, ScenesMeta>> sScenesMeta = new LinkedList<>();
 
     /**
+     * <p>Parse the annotation {@link CoffeeScene} of a {@link ViewGroup}
+     * and add the scenes into the {@link ViewGroup}.</p>
+     *
+     * <p>This method will add each scene into {@link ViewGroup} with
+     * {@link ViewGroup#addView(View)}.</p>
+     *
+     * @param context the holding context used to inflate the views.
+     * @param reference an object that has a {@link CoffeeScene}
+     */
+    public static ViewGroup create(@NonNull Context context, @NonNull Object reference) {
+        return doCreate(
+                context,
+                reference,
+                sDefaultSceneAnimationAdapter,
+                new FrameLayout(context),
+                null
+        );
+    }
+
+    /**
+     * <p>Parse the annotation {@link CoffeeScene} of a {@link ViewGroup}
+     * and add the scenes into the {@link ViewGroup}.</p>
+     *
+     * <p>This method will add each scene into {@link ViewGroup} with
+     * {@link ViewGroup#addView(View)}.</p>
+     *
+     * @param context the holding context used to inflate the views.
+     * @param reference an object that has a {@link CoffeeScene}
+     * @param adapter The {@link SceneAnimationAdapter} to be used.
+     */
+    public static ViewGroup create(@NonNull Context context,
+                                   @NonNull Object reference,
+                                   @Nullable SceneAnimationAdapter adapter) {
+        return doCreate(
+                context,
+                reference,
+                adapter,
+                new FrameLayout(context),
+                null
+        );
+    }
+
+    /**
      * <p>Parse the annotation {@link CoffeeScene} of an {@link Activity}
      * and add the scenes into the {@link Activity}.</p>
      *

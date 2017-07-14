@@ -44,6 +44,23 @@ public final class SceneCreator {
      * {@link SceneCreator#add(int, View)} and {@link SceneCreator#add(int, int)}
      * will be searched into the main layout of the activity.
      *
+     * @param reference the reference that will be used to change scene.
+     * @param rootView the view group that holds the scenes anchors.
+     *
+     * @return a {@link SceneCreator} for more configurations.
+     */
+    public static SceneCreator with(@NonNull Object reference, @NonNull ViewGroup rootView) {
+        return new SceneCreator(
+                reference,
+                rootView
+        );
+    }
+
+    /**
+     * Setup by using an activity. The view classes or view ids added by
+     * {@link SceneCreator#add(int, View)} and {@link SceneCreator#add(int, int)}
+     * will be searched into the main layout of the activity.
+     *
      * @param activity the reference activity which contains the children.
      * @return a {@link SceneCreator} for more configurations.
      */

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.geronimostudios.coffeescene.SceneCreator;
 import com.geronimostudios.coffeescene.SceneManager;
 import com.geronimostudios.coffeescene.annotations.CoffeeScene;
 import com.geronimostudios.coffeescene.annotations.Scene;
