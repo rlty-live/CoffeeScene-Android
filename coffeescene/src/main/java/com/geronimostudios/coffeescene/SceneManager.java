@@ -69,16 +69,16 @@ public final class SceneManager {
      *
      * @param activity an {@link Activity} that has a {@link CoffeeScene}
      */
-    public static void create(@NonNull Activity activity) {
-        activity.setContentView(
-                doCreate(
-                        activity,
-                        activity,
-                        sDefaultSceneAnimationAdapter,
-                        new FrameLayout(activity),
-                        null
-                )
+    public static ViewGroup create(@NonNull Activity activity) {
+        ViewGroup root = doCreate(
+                activity,
+                activity,
+                sDefaultSceneAnimationAdapter,
+                new FrameLayout(activity),
+                null
         );
+        activity.setContentView(root);
+        return root;
     }
 
     /**
@@ -91,11 +91,11 @@ public final class SceneManager {
      * @param activity an {@link Activity} that has a {@link CoffeeScene}
      * @param adapter The {@link SceneAnimationAdapter} to be used.
      */
-    public static void create(@NonNull Activity activity,
-                              @Nullable SceneAnimationAdapter adapter) {
-        activity.setContentView(
-                doCreate(activity, activity, adapter, new FrameLayout(activity), null)
-        );
+    public static ViewGroup create(@NonNull Activity activity,
+                                   @Nullable SceneAnimationAdapter adapter) {
+        ViewGroup root = doCreate(activity, activity, adapter, new FrameLayout(activity), null);
+        activity.setContentView(root);
+        return root;
     }
 
     /**
@@ -107,8 +107,8 @@ public final class SceneManager {
      *
      * @param view a {@link ViewGroup} that has a {@link CoffeeScene}
      */
-    public static void create(@NonNull ViewGroup view) {
-        doCreate(view.getContext(), view, sDefaultSceneAnimationAdapter, view, null);
+    public static ViewGroup create(@NonNull ViewGroup view) {
+        return doCreate(view.getContext(), view, sDefaultSceneAnimationAdapter, view, null);
     }
 
     /**
@@ -121,9 +121,9 @@ public final class SceneManager {
      * @param view a {@link ViewGroup} that has a {@link CoffeeScene}
      * @param adapter The {@link SceneAnimationAdapter} to be used.
      */
-    public static void create(@NonNull ViewGroup view,
-                              @Nullable SceneAnimationAdapter adapter) {
-        doCreate(view.getContext(), view, adapter, view, null);
+    public static ViewGroup create(@NonNull ViewGroup view,
+                                   @Nullable SceneAnimationAdapter adapter) {
+        return doCreate(view.getContext(), view, adapter, view, null);
     }
 
     /**
