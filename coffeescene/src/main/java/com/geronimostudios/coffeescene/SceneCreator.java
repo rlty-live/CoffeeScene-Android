@@ -148,11 +148,23 @@ public final class SceneCreator {
 
     /**
      * Change the default view.
+     * {@link #main(int)} is now deprecated, {@link #first(int)} should be used instead.
      *
      * @param defaultSceneId the default sceneId.
      * @return a {@link SceneCreator} for more configurations.
      */
+    @Deprecated
     public SceneCreator main(int defaultSceneId) {
+        return first(defaultSceneId);
+    }
+
+    /**
+     * Change the default view.
+     *
+     * @param defaultSceneId the default sceneId.
+     * @return a {@link SceneCreator} for more configurations.
+     */
+    public SceneCreator first(int defaultSceneId) {
         mDefaultSceneId = defaultSceneId;
         return this;
     }
