@@ -1,6 +1,7 @@
 package com.geronimostudios.sample.coffeescene;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -13,11 +14,11 @@ import com.geronimostudios.coffeescene.annotations.Scene;
 
 @CoffeeScene(
         value = {
-                @Scene(scene = Scene.MAIN_CONTENT, layout = R.layout.sample_fragment_main),
-                @Scene(scene = Scene.LOADER, layout = R.layout.fragment_loader),
+                @Scene(scene = Scene.MAIN, layout = R.layout.sample_fragment_main),
+                @Scene(scene = Scene.SPINNER, layout = R.layout.fragment_loader),
                 @Scene(scene = Scene.PLACEHOLDER, layout = R.layout.fragment_placeholder),
         },
-        defaultScene = Scene.MAIN_CONTENT
+        first = Scene.MAIN
 )
 public class SampleFragmentV4 extends DialogFragment implements View.OnClickListener {
 
@@ -27,7 +28,9 @@ public class SampleFragmentV4 extends DialogFragment implements View.OnClickList
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
         View root = SceneManager.create(this);
 
         root.findViewById(R.id.sample_switch_to_main).setOnClickListener(this);
@@ -45,10 +48,10 @@ public class SampleFragmentV4 extends DialogFragment implements View.OnClickList
             case R.id.sample_switch_to_main:
             case R.id.go_to_main_from_loader:
             case R.id.go_to_main_from_placeholder:
-                SceneManager.scene(this, Scene.MAIN_CONTENT);
+                SceneManager.scene(this, Scene.MAIN);
                 break;
             case R.id.sample_switch_to_progress:
-                SceneManager.scene(this, Scene.LOADER);
+                SceneManager.scene(this, Scene.SPINNER);
                 break;
             case R.id.sample_switch_to_placeholder:
                 SceneManager.scene(this, Scene.PLACEHOLDER);

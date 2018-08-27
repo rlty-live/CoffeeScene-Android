@@ -20,11 +20,12 @@ public class SampleNoAnnotationsActivity extends AppCompatActivity implements Vi
         setContentView(R.layout.activity_no_annotations_sample);
         SceneManager.create(
                 SceneCreator.with(this)
-                        .add(Scene.MAIN_CONTENT, R.id.activity_no_annotations_sample_main_content)
-                        .add(Scene.MAIN_CONTENT, R.id.activity_no_annotations_sample_main_content_another_view)
-                        .add(Scene.LOADER, R.id.activity_no_annotations_sample_loader)
+                        .add(Scene.MAIN, R.id.activity_no_annotations_sample_main_content)
+                        .add(Scene.MAIN, R.id.activity_no_annotations_sample_main_content_another_view)
+                        .add(Scene.SPINNER, R.id.activity_no_annotations_sample_main_content_another_view)
+                        .add(Scene.SPINNER, R.id.activity_no_annotations_sample_loader)
                         .add(Scene.PLACEHOLDER, R.id.activity_no_annotations_sample_placeholder)
-                        .main(Scene.MAIN_CONTENT)
+                        .first(Scene.MAIN)
                         .animation(null)
                         .listener(new CoffeeSceneListenerAdapter() {
                             @Override
@@ -47,13 +48,13 @@ public class SampleNoAnnotationsActivity extends AppCompatActivity implements Vi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.activity_no_annotations_sample_main_content:
-                SceneManager.scene(this, Scene.LOADER);
+                SceneManager.scene(this, Scene.SPINNER);
                 break;
             case R.id.activity_no_annotations_sample_loader:
                 SceneManager.scene(this, Scene.PLACEHOLDER);
                 break;
             case R.id.activity_no_annotations_sample_placeholder:
-                SceneManager.scene(this, Scene.MAIN_CONTENT);
+                SceneManager.scene(this, Scene.MAIN);
                 break;
             default:
                 throw new IllegalArgumentException("Invalid view id");

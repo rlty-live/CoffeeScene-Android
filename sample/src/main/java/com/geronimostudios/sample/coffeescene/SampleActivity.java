@@ -9,9 +9,9 @@ import com.geronimostudios.coffeescene.annotations.CoffeeScene;
 import com.geronimostudios.coffeescene.annotations.Scene;
 
 @CoffeeScene({
-        @Scene(scene = Scene.MAIN_CONTENT, layout = R.layout.sample_activity_main),
-        @Scene(scene = Scene.MAIN_CONTENT, layout = R.layout.sample_activity_main_second_anchor),
-        @Scene(scene = Scene.LOADER, layout = R.layout.loader),
+        @Scene(scene = Scene.MAIN, layout = R.layout.sample_activity_main),
+        @Scene(scene = Scene.MAIN, layout = R.layout.sample_activity_main_second_anchor),
+        @Scene(scene = Scene.SPINNER, layout = R.layout.spinner),
         @Scene(scene = Scene.PLACEHOLDER, layout = R.layout.placeholder),
         @Scene(scene = SampleActivity.SAMPLE_WITH_VIEW, layout = R.layout.sample_with_view)
 })
@@ -43,10 +43,11 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.sample_switch_to_activity:
             case R.id.go_to_main_from_loader:
             case R.id.go_to_main_from_placeholder:
-                SceneManager.scene(this, Scene.MAIN_CONTENT);
+                SceneManager.scene(this, Scene.SPINNER);
+                SceneManager.scene(this, Scene.MAIN);
                 break;
             case R.id.sample_switch_to_progress:
-                SceneManager.scene(this, Scene.LOADER);
+                SceneManager.scene(this, Scene.SPINNER);
                 break;
             case R.id.sample_switch_to_placeholder:
                 SceneManager.scene(this, Scene.PLACEHOLDER);

@@ -21,8 +21,12 @@ public @interface Scene {
      * Those constants can be reused by your application for {@link Scene#scene()}.
      * You can of course also use your own id.
      */
+    @Deprecated
     public static final int MAIN_CONTENT = 0x420;
+    public static final int MAIN = 0x420;
+    @Deprecated
     public static final int LOADER = 0x421;
+    public static final int SPINNER = 0x421;
     public static final int PLACEHOLDER = 0x423;
 
     /**

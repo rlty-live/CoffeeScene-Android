@@ -18,10 +18,10 @@ import java.util.List;
  * <p>Example:
  * SceneManager.create(
  *      SceneCreator.with(this)
- *          .add(Scene.MAIN_CONTENT, R.id.activity_no_annotations_sample_main_content)
- *          .add(Scene.LOADER, R.id.activity_no_annotations_sample_loader)
+ *          .add(Scene.MAIN, R.id.activity_no_annotations_sample_main_content)
+ *          .add(Scene.SPINNER, R.id.activity_no_annotations_sample_loader)
  *          .add(Scene.PLACEHOLDER, R.id.activity_no_annotations_sample_placeholder)
- *          .main(Scene.MAIN_CONTENT)
+ *          .main(Scene.MAIN)
  *  );</p>
  */
 public final class SceneCreator {

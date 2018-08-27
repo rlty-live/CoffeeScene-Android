@@ -39,14 +39,14 @@ public class SampleNoAnnotationsActivity extends AppCompatActivity implements Vi
         
         SceneManager.create(
                 SceneCreator.with(this)
-                        .add(Scene.MAIN_CONTENT, R.id.activity_no_annotations_sample_main_content)
-                        .add(Scene.MAIN_CONTENT, R.id.activity_no_annotations_sample_main_content_another_view) // you can add many layouts to the same scene id.
-                        .add(Scene.LOADER, R.id.activity_no_annotations_sample_loader)
+                        .add(Scene.MAIN, R.id.activity_no_annotations_sample_main_content)
+                        .add(Scene.MAIN, R.id.activity_no_annotations_sample_main_content_another_view) // you can add many layouts to the same scene id.
+                        .add(Scene.SPINNER, R.id.activity_no_annotations_sample_loader)
                         .add(Scene.PLACEHOLDER, R.id.activity_no_annotations_sample_placeholder)
                         .add(EMPTY_RECYCLER_PLACEHOLDER, R.id.activity_no_annotations_sample_empty_placeholder)
                         .listener(this)
                         .animation(this)
-                        .main(Scene.LOADER)
+                        .main(Scene.SPINNER)
         );
     }
 ...
@@ -61,9 +61,9 @@ Each scene requires an unique identifier (sceneId) and a valid layout resource.
 
 ```java
 @CoffeeScene({
-        @Scene(scene = Scene.MAIN_CONTENT, layout = R.layout.sample_activity_main),
-        @Scene(scene = Scene.MAIN_CONTENT, layout = R.layout.sample_activity_main_second_anchor), // you can add many layouts to the same scene id.
-        @Scene(scene = Scene.LOADER, layout = R.layout.loader),
+        @Scene(scene = Scene.MAIN, layout = R.layout.sample_activity_main),
+        @Scene(scene = Scene.MAIN, layout = R.layout.sample_activity_main_second_anchor), // you can add many layouts to the same scene id.
+        @Scene(scene = Scene.SPINNER, layout = R.layout.loader),
         @Scene(scene = Scene.PLACEHOLDER, layout = R.layout.placeholder)
 })
 public class MainActivity extends Activity {
@@ -79,7 +79,7 @@ public class MainActivity extends Activity {
 }
 ```
 
-The class **Scene** provides a few scene's identifiers : _Scene.MAIN_CONTENT, Scene.LOADER and Scene.PLACEHOLDER_.<br>
+The class **Scene** provides a few scene's identifiers : _Scene.MAIN, Scene.SPINNER and Scene.PLACEHOLDER_.<br>
 You are free to use it or not, but be sure that each identifier is unique.
 
 **Activities**: Just call _SceneManager.create(this);_. You don't need to call setContentView();<br>
@@ -101,7 +101,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sample_switch_to_progress:
-                SceneManager.scene(this, Scene.LOADER); // Change the current scene
+                SceneManager.scene(this, Scene.SPINNER); // Change the current scene
                 break;
             case R.id.sample_switch_to_placeholder:
                 SceneManager.scene(this, Scene.PLACEHOLDER); // Change the current scene
@@ -136,11 +136,11 @@ Full example
 ```java
 @CoffeeScene(
         value = {
-                @Scene(scene = Scene.MAIN_CONTENT, layout = R.layout.sample_activity_main),
-                @Scene(scene = Scene.LOADER, layout = R.layout.loader),
+                @Scene(scene = Scene.MAIN, layout = R.layout.sample_activity_main),
+                @Scene(scene = Scene.SPINNER, layout = R.layout.loader),
                 @Scene(scene = Scene.PLACEHOLDER, layout = R.layout.placeholder)
         },
-        defaultScene = Scene.MAIN_CONTENT
+        defaultScene = Scene.MAIN
 )
 public class SampleActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -158,10 +158,10 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sample_switch_to_main:
-                SceneManager.scene(this, Scene.MAIN_CONTENT); // Change the current scene
+                SceneManager.scene(this, Scene.MAIN); // Change the current scene
                 break;
             case R.id.sample_switch_to_progress:
-                SceneManager.scene(this, Scene.LOADER); // Change the current scene
+                SceneManager.scene(this, Scene.SPINNER); // Change the current scene
                 break;
             case R.id.sample_switch_to_placeholder:
                 SceneManager.scene(this, Scene.PLACEHOLDER); // Change the current scene

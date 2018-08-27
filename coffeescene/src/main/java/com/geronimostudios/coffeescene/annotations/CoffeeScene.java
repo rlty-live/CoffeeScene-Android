@@ -28,5 +28,5 @@ public @interface CoffeeScene {
      * The default scene id. See {@link Scene#scene()}.
      * The {@link Scene} associated to this id will be the displayed first.
      */
-    int defaultScene() default Scene.MAIN_CONTENT;
+    int first() default Scene.MAIN;
 }

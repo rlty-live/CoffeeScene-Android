@@ -13,11 +13,11 @@ import com.geronimostudios.coffeescene.annotations.Scene;
 
 @CoffeeScene(
         value = {
-                @Scene(scene = Scene.MAIN_CONTENT, layout = R.layout.sample_fragment_main),
-                @Scene(scene = Scene.LOADER, layout = R.layout.fragment_loader),
+                @Scene(scene = Scene.MAIN, layout = R.layout.sample_fragment_main),
+                @Scene(scene = Scene.SPINNER, layout = R.layout.fragment_loader),
                 @Scene(scene = Scene.PLACEHOLDER, layout = R.layout.fragment_placeholder),
         },
-        defaultScene = Scene.MAIN_CONTENT
+        first = Scene.MAIN
 )
 public class SampleFragment extends DialogFragment implements View.OnClickListener {
 
@@ -45,10 +45,10 @@ public class SampleFragment extends DialogFragment implements View.OnClickListen
             case R.id.sample_switch_to_main:
             case R.id.go_to_main_from_loader:
             case R.id.go_to_main_from_placeholder:
-                SceneManager.scene(this, Scene.MAIN_CONTENT);
+                SceneManager.scene(this, Scene.MAIN);
                 break;
             case R.id.sample_switch_to_progress:
-                SceneManager.scene(this, Scene.LOADER);
+                SceneManager.scene(this, Scene.SPINNER);
                 break;
             case R.id.sample_switch_to_placeholder:
                 SceneManager.scene(this, Scene.PLACEHOLDER);

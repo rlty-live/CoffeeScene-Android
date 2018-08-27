@@ -30,32 +30,6 @@ import java.util.List;
 public final class SceneManager {
 
     /**
-     * The default animation adapter.
-     */
-    private static SceneAnimationAdapter sDefaultSceneAnimationAdapter
-            = new SceneAnimationAdapter() {
-        @Override
-        public void showView(View view, boolean animate) {
-            if (animate) {
-                AnimationHelper.showView(view);
-            } else {
-                view.setAlpha(1f);
-                view.setVisibility(View.VISIBLE);
-            }
-        }
-
-        @Override
-        public void hideView(View view, boolean animate) {
-            if (animate) {
-                AnimationHelper.hideView(view);
-            } else {
-                view.setAlpha(0f);
-                view.setVisibility(View.GONE);
-            }
-        }
-    };
-
-    /**
      * A dictionary of {@link ScenesMeta} associated with their view, activity or fragment.
      */
     private static List<Pair<WeakReference<Object>, ScenesMeta>> sScenesMeta = new LinkedList<>();
@@ -71,7 +45,7 @@ public final class SceneManager {
         return doCreate(
                 context,
                 reference,
-                sDefaultSceneAnimationAdapter,
+                SceneAnimator.ANIMATION_FADE,
                 new FrameLayout(context),
                 null
         );
@@ -110,7 +84,7 @@ public final class SceneManager {
         ViewGroup root = doCreate(
                 activity,
                 activity,
-                sDefaultSceneAnimationAdapter,
+                SceneAnimator.ANIMATION_FADE,
                 new FrameLayout(activity),
                 null
         );
@@ -145,7 +119,7 @@ public final class SceneManager {
      * @param view a {@link ViewGroup} that has a {@link CoffeeScene}
      */
     public static ViewGroup create(@NonNull ViewGroup view) {
-        return doCreate(view.getContext(), view, sDefaultSceneAnimationAdapter, view, null);
+        return doCreate(view.getContext(), view, SceneAnimator.ANIMATION_FADE, view, null);
     }
 
     /**
@@ -174,7 +148,7 @@ public final class SceneManager {
         return doCreate(
                 fragment.getActivity(),
                 fragment,
-                sDefaultSceneAnimationAdapter,
+                SceneAnimator.ANIMATION_FADE,
                 new FrameLayout(fragment.getActivity()),
                 null
         );
@@ -210,7 +184,7 @@ public final class SceneManager {
         return doCreate(
                 fragment.getActivity(),
                 fragment,
-                sDefaultSceneAnimationAdapter,
+                SceneAnimator.ANIMATION_FADE,
                 new FrameLayout(fragment.getActivity()),
                 null
         );
@@ -246,7 +220,7 @@ public final class SceneManager {
         sScenesMeta.add(Pair.create(
                 new WeakReference<>(creator.getReference()),
                 new ScenesMeta(
-                        adapter == null ? sDefaultSceneAnimationAdapter : adapter,
+                        adapter == null ? SceneAnimator.ANIMATION_FADE : adapter,
                         creator.getScenes(),
                         creator.getListener()
                 ))
@@ -330,12 +304,17 @@ public final class SceneManager {
 
         // Create root node with all scenes
         if (adapter == null) {
-            adapter = sDefaultSceneAnimationAdapter;
+            adapter = SceneAnimator.ANIMATION_FADE;
         }
         LayoutInflater inflater = LayoutInflater.from(context);
         for (Scene scene : scenes) {
             View view = inflater.inflate(scene.layout(), root, false);
-            showOrHideView(scene.scene() == defaultScene, adapter, view, false);
+            showOrHideView(
+                    scene.scene() == defaultScene,
+                    adapter,
+                    view,
+                    false
+            );
             root.addView(view);
         }
 
@@ -450,7 +429,7 @@ public final class SceneManager {
     }
 
     private static int getValidDefaultScene(CoffeeScene setup, Scene[] scenes) {
-        int defaultScene = setup.defaultScene();
+        int defaultScene = setup.first();
         for (Scene scene : scenes) {
             if (scene.scene() == defaultScene) {
                 return defaultScene; // the default scene specified by the user is valid
@@ -462,8 +441,12 @@ public final class SceneManager {
     private static void showOrHideView(boolean show,
                                        @NonNull SceneAnimationAdapter adapter,
                                        @NonNull List<View> views,
+                                       @Nullable List<View> forceShow,
                                        boolean animate) {
         for (View view : views) {
+            if (!show && forceShow != null && forceShow.contains(view)) {
+                continue; // Skip an forceShow view
+            }
             showOrHideView(show, adapter, view, animate);
         }
     }
@@ -518,6 +501,7 @@ public final class SceneManager {
         }
         SceneAnimationAdapter adapter = meta.getSceneAnimationAdapter();
         SparseArray<List<View>> scenesIdsToViews = meta.getScenesIdsToViews();
+        List<View> currentSceneViews = scenesIdsToViews.get(sceneId);
         Listener listener = meta.getListener();
 
         for (int i = 0; i < scenesIdsToViews.size(); i++) {
@@ -525,7 +509,7 @@ public final class SceneManager {
             int viewSceneId = scenesIdsToViews.keyAt(i);
             List<View> views = scenesIdsToViews.get(viewSceneId);
             boolean show = viewSceneId == sceneId;
-            showOrHideView(show, adapter, views, animate);
+            showOrHideView(show, adapter, views, currentSceneViews, animate);
 
             // Call the listener
             if (listener != null) {
