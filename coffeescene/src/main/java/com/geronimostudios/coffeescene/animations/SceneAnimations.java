@@ -1,7 +1,8 @@
-package com.geronimostudios.coffeescene;
+package com.geronimostudios.coffeescene.animations;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 public final class SceneAnimations {
@@ -13,10 +14,11 @@ public final class SceneAnimations {
      * Fade in or out and change the visibility from {@link View#VISIBLE} to {@link View#GONE}.
      * This is the default animation adapter.
      */
-    public static SceneAnimationAdapter ANIMATION_FADE
-            = new SceneAnimationAdapter() {
+    public static AnimationAdapter ANIMATION_FADE
+            = new SimpleAnimationAdapter() {
+
         @Override
-        public void showView(View view, boolean animate) {
+        public void showView(View view, @Nullable ScenesParams params, boolean animate) {
             if (animate) {
                 AnimationHelper.showView(view);
             } else {
@@ -26,7 +28,7 @@ public final class SceneAnimations {
         }
 
         @Override
-        public void hideView(View view, boolean animate) {
+        public void hideView(View view, @Nullable ScenesParams params, boolean animate) {
             if (animate) {
                 AnimationHelper.hideView(view);
             } else {
@@ -40,10 +42,11 @@ public final class SceneAnimations {
      * Fade in or out and call {@link View#setEnabled(boolean)} on the view.
      * The visibility changes from {@link View#VISIBLE} to {@link View#INVISIBLE}.
      */
-    public static SceneAnimationAdapter ANIMATION_ALPHA_ENABLE
-            = new SceneAnimationAdapter() {
+    public static AnimationAdapter ANIMATION_ALPHA_ENABLE
+            = new SimpleAnimationAdapter<ScenesParams>() {
+
         @Override
-        public void showView(final View view, boolean animate) {
+        public void showView(final View view, @Nullable ScenesParams params, boolean animate) {
             if (animate) {
                 view.animate()
                         .alpha(1f)
@@ -62,7 +65,7 @@ public final class SceneAnimations {
         }
 
         @Override
-        public void hideView(final View view, boolean animate) {
+        public void hideView(final View view, @Nullable ScenesParams params, boolean animate) {
             if (animate) {
                 view.animate()
                         .alpha(0f)

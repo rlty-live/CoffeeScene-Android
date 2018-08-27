@@ -7,6 +7,8 @@ import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.geronimostudios.coffeescene.animations.AnimationAdapter;
+import com.geronimostudios.coffeescene.animations.ScenesParams;
 import com.geronimostudios.coffeescene.annotations.Scene;
 
 import java.util.ArrayList;
@@ -16,12 +18,13 @@ import java.util.List;
  * Contains data about a {@link com.geronimostudios.coffeescene.annotations.CoffeeScene}
  */
 final class ScenesMeta {
-    private @NonNull SceneAnimationAdapter mSceneAnimationAdapter;
-    private SparseArray<List<View>> mScenesIdsToViews;
+    private @NonNull AnimationAdapter mSceneAnimationAdapter;
+    private @NonNull SparseArray<List<View>> mScenesIdsToViews;
     private Listener mListener;
+    private @Nullable ScenesParams mScenesParams;
 
     ScenesMeta(@NonNull ViewGroup root,
-               @NonNull SceneAnimationAdapter sceneAnimationAdapter,
+               @NonNull AnimationAdapter sceneAnimationAdapter,
                Scene[] scenes,
                @Nullable Listener listener) {
         mSceneAnimationAdapter = sceneAnimationAdapter;
@@ -36,9 +39,10 @@ final class ScenesMeta {
             }
             list.add(root.getChildAt(i));
         }
+        mScenesParams = mSceneAnimationAdapter.generateScenesParams(mScenesIdsToViews);
     }
 
-    ScenesMeta(@NonNull SceneAnimationAdapter sceneAnimationAdapter,
+    ScenesMeta(@NonNull AnimationAdapter sceneAnimationAdapter,
                @NonNull List<Pair<Integer, View>> scenesIds,
                @Nullable Listener listener) {
         mSceneAnimationAdapter = sceneAnimationAdapter;
@@ -52,16 +56,22 @@ final class ScenesMeta {
             }
             list.add(pair.second);
         }
+        mScenesParams = mSceneAnimationAdapter.generateScenesParams(mScenesIdsToViews);
     }
 
     @NonNull
-    SceneAnimationAdapter getSceneAnimationAdapter() {
+    AnimationAdapter getSceneAnimationAdapter() {
         return mSceneAnimationAdapter;
     }
 
     @NonNull
     SparseArray<List<View>> getScenesIdsToViews() {
         return mScenesIdsToViews;
+    }
+
+    @Nullable
+    public ScenesParams getScenesParams() {
+        return mScenesParams;
     }
 
     @Nullable

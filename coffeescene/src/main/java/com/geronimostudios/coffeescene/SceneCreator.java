@@ -9,6 +9,8 @@ import android.support.v4.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.geronimostudios.coffeescene.animations.AnimationAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +30,8 @@ public final class SceneCreator {
     private final Object mReference;
     private Listener mListener;
     private final ViewGroup mRootView;
-    private @Nullable SceneAnimationAdapter mAdapter;
+    private @Nullable
+    AnimationAdapter mAdapter;
     private int mDefaultSceneId;
     private List<Pair<Integer, View>> mScenes;
 
@@ -130,7 +133,7 @@ public final class SceneCreator {
      * @param adapter the new animation adapter
      * @return a {@link SceneCreator} for more configurations.
      */
-    public SceneCreator animation(@Nullable SceneAnimationAdapter adapter) {
+    public SceneCreator animation(@Nullable AnimationAdapter adapter) {
         mAdapter = adapter;
         return this;
     }
@@ -201,7 +204,7 @@ public final class SceneCreator {
     }
 
     @Nullable
-    SceneAnimationAdapter getAdapter() {
+    AnimationAdapter getAdapter() {
         return mAdapter;
     }
 

@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.geronimostudios.coffeescene.animations.AnimationAdapter;
+import com.geronimostudios.coffeescene.animations.SceneAnimations;
 import com.geronimostudios.coffeescene.annotations.CoffeeScene;
 import com.geronimostudios.coffeescene.annotations.Scene;
 
@@ -57,11 +59,11 @@ public final class SceneManager {
      *
      * @param context the holding context used to inflate the views.
      * @param reference an object that has a {@link CoffeeScene}
-     * @param adapter The {@link SceneAnimationAdapter} to be used.
+     * @param adapter The {@link AnimationAdapter} to be used.
      */
     public static ViewGroup create(@NonNull Context context,
                                    @NonNull Object reference,
-                                   @Nullable SceneAnimationAdapter adapter) {
+                                   @Nullable AnimationAdapter adapter) {
         return doCreate(
                 context,
                 reference,
@@ -100,10 +102,10 @@ public final class SceneManager {
      * {@link Activity#setContentView(int)} (View)}.</p>
      *
      * @param activity an {@link Activity} that has a {@link CoffeeScene}
-     * @param adapter The {@link SceneAnimationAdapter} to be used.
+     * @param adapter The {@link AnimationAdapter} to be used.
      */
     public static ViewGroup create(@NonNull Activity activity,
-                                   @Nullable SceneAnimationAdapter adapter) {
+                                   @Nullable AnimationAdapter adapter) {
         ViewGroup root = doCreate(activity, activity, adapter, new FrameLayout(activity), null);
         activity.setContentView(root);
         return root;
@@ -130,10 +132,10 @@ public final class SceneManager {
      * {@link ViewGroup#addView(View)}.</p>
      *
      * @param view a {@link ViewGroup} that has a {@link CoffeeScene}
-     * @param adapter The {@link SceneAnimationAdapter} to be used.
+     * @param adapter The {@link AnimationAdapter} to be used.
      */
     public static ViewGroup create(@NonNull ViewGroup view,
-                                   @Nullable SceneAnimationAdapter adapter) {
+                                   @Nullable AnimationAdapter adapter) {
         return doCreate(view.getContext(), view, adapter, view, null);
     }
 
@@ -160,10 +162,10 @@ public final class SceneManager {
      *  {@link Fragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}</p>
      *
      * @param fragment an {@link Fragment} that has a {@link CoffeeScene}
-     * @param adapter The {@link SceneAnimationAdapter} to be used.
+     * @param adapter The {@link AnimationAdapter} to be used.
      */
     public static ViewGroup create(@NonNull Fragment fragment,
-                                   @Nullable SceneAnimationAdapter adapter) {
+                                   @Nullable AnimationAdapter adapter) {
         return doCreate(
                 fragment.getActivity(),
                 fragment,
@@ -196,10 +198,10 @@ public final class SceneManager {
      *  {@link android.support.v4.app.Fragment#onCreateView(LayoutInflater, ViewGroup, Bundle)}</p>
      *
      * @param fragment an {@link android.support.v4.app.Fragment} that has a {@link CoffeeScene}
-     * @param adapter The {@link SceneAnimationAdapter} to be used.
+     * @param adapter The {@link AnimationAdapter} to be used.
      */
     public static ViewGroup create(@NonNull android.support.v4.app.Fragment fragment,
-                                   @Nullable SceneAnimationAdapter adapter) {
+                                   @Nullable AnimationAdapter adapter) {
         return doCreate(
                 fragment.getActivity(),
                 fragment,
@@ -216,7 +218,7 @@ public final class SceneManager {
      */
     public static void create(@NonNull SceneCreator creator) {
         // Save the scene's meta data
-        SceneAnimationAdapter adapter = creator.getAdapter();
+        AnimationAdapter adapter = creator.getAdapter();
         sScenesMeta.add(Pair.create(
                 new WeakReference<>(creator.getReference()),
                 new ScenesMeta(
@@ -292,7 +294,7 @@ public final class SceneManager {
      */
     private static ViewGroup doCreate(@NonNull Context context,
                                       @NonNull Object object,
-                                      @Nullable SceneAnimationAdapter adapter,
+                                      @Nullable AnimationAdapter adapter,
                                       @NonNull ViewGroup root,
                                       @Nullable Listener listener) {
         // Retrieve annotations
@@ -300,7 +302,7 @@ public final class SceneManager {
         Scene[] scenes = setup.value();
 
         // Save scenes meta data
-        int defaultScene = getValidDefaultScene(setup, scenes);
+        int firstScene = getValidFirstScene(setup, scenes);
 
         // Create root node with all scenes
         if (adapter == null) {
@@ -309,20 +311,22 @@ public final class SceneManager {
         LayoutInflater inflater = LayoutInflater.from(context);
         for (Scene scene : scenes) {
             View view = inflater.inflate(scene.layout(), root, false);
-            showOrHideView(
-                    scene.scene() == defaultScene,
-                    adapter,
-                    view,
-                    false
-            );
             root.addView(view);
         }
 
         // Save the scene's meta data
+        ScenesMeta meta = new ScenesMeta(root, adapter, scenes, listener);
         sScenesMeta.add(Pair.create(
                 new WeakReference<>(object),
-                new ScenesMeta(root, adapter, scenes, listener)
+                meta
         ));
+        //noinspection unchecked
+        adapter.doChangeScene(
+                meta.getScenesIdsToViews(),
+                meta.getScenesParams(),
+                firstScene,
+                false
+        );
         return root;
     }
 
@@ -428,38 +432,14 @@ public final class SceneManager {
         doChangeScene(fragment, scene, animate);
     }
 
-    private static int getValidDefaultScene(CoffeeScene setup, Scene[] scenes) {
-        int defaultScene = setup.first();
+    private static int getValidFirstScene(CoffeeScene setup, Scene[] scenes) {
+        int firstScene = setup.first();
         for (Scene scene : scenes) {
-            if (scene.scene() == defaultScene) {
-                return defaultScene; // the default scene specified by the user is valid
+            if (scene.scene() == firstScene) {
+                return firstScene; // the default scene specified by the user is valid
             }
         }
         return scenes[0].scene(); // the default scene is not valid
-    }
-
-    private static void showOrHideView(boolean show,
-                                       @NonNull SceneAnimationAdapter adapter,
-                                       @NonNull List<View> views,
-                                       @Nullable List<View> forceShow,
-                                       boolean animate) {
-        for (View view : views) {
-            if (!show && forceShow != null && forceShow.contains(view)) {
-                continue; // Skip an forceShow view
-            }
-            showOrHideView(show, adapter, view, animate);
-        }
-    }
-
-    private static void showOrHideView(boolean show,
-                                       @NonNull SceneAnimationAdapter adapter,
-                                       @NonNull View views,
-                                       boolean animate) {
-        if (show) {
-            adapter.showView(views, animate);
-        } else {
-            adapter.hideView(views, animate);
-        }
     }
 
     private static CoffeeScene safeGetSetup(@NonNull Object object) {
@@ -499,17 +479,22 @@ public final class SceneManager {
         if (meta == null) {
             return;
         }
-        SceneAnimationAdapter adapter = meta.getSceneAnimationAdapter();
+        AnimationAdapter adapter = meta.getSceneAnimationAdapter();
         SparseArray<List<View>> scenesIdsToViews = meta.getScenesIdsToViews();
-        List<View> currentSceneViews = scenesIdsToViews.get(sceneId);
+        //noinspection unchecked
+        adapter.doChangeScene(scenesIdsToViews, meta.getScenesParams(), sceneId, animate);
         Listener listener = meta.getListener();
+        notifyListener(scenesIdsToViews, sceneId, listener);
+    }
+
+    private static void notifyListener(SparseArray<List<View>> scenesIdsToViews,
+                                       int sceneId,
+                                       Listener listener) {
 
         for (int i = 0; i < scenesIdsToViews.size(); i++) {
             // do change scene
             int viewSceneId = scenesIdsToViews.keyAt(i);
-            List<View> views = scenesIdsToViews.get(viewSceneId);
             boolean show = viewSceneId == sceneId;
-            showOrHideView(show, adapter, views, currentSceneViews, animate);
 
             // Call the listener
             if (listener != null) {
