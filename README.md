@@ -11,11 +11,11 @@ You can also try it on Google Play : https://play.google.com/store/apps/details?
 
 Gradle
 =======
-Include the dependency [Download (.aar)](https://bintray.com/geronimostudios/geronimostudios/download_file?file_path=com%2Fgeronimostudios%2Fcoffeescene%2Fcoffeescene%2F0.0.7%2Fcoffeescene-0.0.7.aar) :
+Include the dependency [Download (.aar)](https://bintray.com/geronimostudios/geronimostudios/download_file?file_path=com%2Fgeronimostudios%2Fcoffeescene%2Fcoffeescene%2F1.0.0%2Fcoffeescene-1.0.0.aar) :
 
 ```groovy
 dependencies {
-    compile 'com.geronimostudios.coffeescene:coffeescene:0.0.7'
+    compile 'com.geronimostudios.coffeescene:coffeescene:1.0.0'
 }
 ```
 
@@ -181,7 +181,7 @@ public class SampleActivity extends AppCompatActivity implements View.OnClickLis
 License
 ======
 ```
-Copyright (C) 2017 Geronimo
+Copyright (C) 2018 Geronimo
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
