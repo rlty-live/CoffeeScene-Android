@@ -35,6 +35,6 @@ android {
 }
 
 dependencies {
-    compile project(':coffeescene')
-    compile 'com.android.support:appcompat-v7:27.1.1'
+    implementation project(':coffeescene')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
 }

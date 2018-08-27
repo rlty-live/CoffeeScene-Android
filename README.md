@@ -15,7 +15,7 @@ Include the dependency [Download (.aar)](https://bintray.com/geronimostudios/ger
 
 ```groovy
 dependencies {
-    compile 'com.geronimostudios.coffeescene:coffeescene:1.0.0'
+    implementation 'com.geronimostudios.coffeescene:coffeescene:1.0.0'
 }
 ```
 
