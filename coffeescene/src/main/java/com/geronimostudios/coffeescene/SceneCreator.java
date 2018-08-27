@@ -32,14 +32,14 @@ public final class SceneCreator {
     private final ViewGroup mRootView;
     private @Nullable
     AnimationAdapter mAdapter;
-    private int mDefaultSceneId;
+    private int mFirstSceneId;
     private List<Pair<Integer, View>> mScenes;
 
     private SceneCreator(@NonNull Object reference, @NonNull ViewGroup rootView) {
         mReference = reference;
         mRootView = rootView;
         mScenes = new ArrayList<>();
-        mDefaultSceneId = -1;
+        mFirstSceneId = -1;
     }
 
     /**
@@ -168,7 +168,7 @@ public final class SceneCreator {
      * @return a {@link SceneCreator} for more configurations.
      */
     public SceneCreator first(int defaultSceneId) {
-        mDefaultSceneId = defaultSceneId;
+        mFirstSceneId = defaultSceneId;
         return this;
     }
 
@@ -208,8 +208,8 @@ public final class SceneCreator {
         return mAdapter;
     }
 
-    int getDefaultSceneId() {
-        return mDefaultSceneId;
+    int getFirstSceneId() {
+        return mFirstSceneId;
     }
 
     @NonNull

@@ -49,25 +49,24 @@ public abstract class SimpleAnimationAdapter<T extends ScenesParams>
                               @Nullable T scenesParams,
                               int sceneId,
                               boolean animate) {
-
+        List<View> currentSceneViews = scenesIdsToViews.get(sceneId);
         for (int i = 0; i < scenesIdsToViews.size(); ++i) {
             // do change scene
             int viewSceneId = scenesIdsToViews.keyAt(i);
             List<View> views = scenesIdsToViews.get(viewSceneId);
             boolean show = viewSceneId == sceneId;
-            List<View> currentSceneViews = scenesIdsToViews.get(sceneId);
             showOrHideView(show, views, currentSceneViews, scenesParams, animate);
         }
     }
 
     private void showOrHideView(boolean show,
                                 @NonNull List<View> views,
-                                @Nullable List<View> forceShow,
+                                @Nullable List<View> forceShowIfHidden,
                                 T scenesParams,
                                 boolean animate) {
         for (View view : views) {
-            if (!show && forceShow != null && forceShow.contains(view)) {
-                continue; // Skip an forceShow view
+            if (!show && forceShowIfHidden != null && forceShowIfHidden.contains(view)) {
+                continue; // Skip an forceShowIfHidden view
             }
             showOrHideView(show, view, scenesParams, animate);
         }

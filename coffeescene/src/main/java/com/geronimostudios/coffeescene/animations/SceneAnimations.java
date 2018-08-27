@@ -83,4 +83,10 @@ public final class SceneAnimations {
             }
         }
     };
+
+    /**
+     * Translate the views like a {@link android.support.v4.view.ViewPager}
+     */
+    public static AnimationAdapter ANIMATION_TRANSLATE_X = new TranslateXAnimationAdapter();
+
 }

@@ -4,12 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.geronimostudios.coffeescene.CoffeeSceneListenerAdapter;
 import com.geronimostudios.coffeescene.SceneCreator;
 import com.geronimostudios.coffeescene.SceneManager;
+import com.geronimostudios.coffeescene.animations.SceneAnimations;
 import com.geronimostudios.coffeescene.annotations.Scene;
 
 public class SampleNoAnnotationsActivity extends AppCompatActivity implements View.OnClickListener {
@@ -26,15 +27,11 @@ public class SampleNoAnnotationsActivity extends AppCompatActivity implements Vi
                         .add(Scene.SPINNER, R.id.activity_no_annotations_sample_loader)
                         .add(Scene.PLACEHOLDER, R.id.activity_no_annotations_sample_placeholder)
                         .first(Scene.MAIN)
-                        .animation(null)
+                        .animation(SceneAnimations.ANIMATION_TRANSLATE_X)
                         .listener(new CoffeeSceneListenerAdapter() {
                             @Override
                             public void onSceneChanged(int sceneId) {
-                                Toast.makeText(
-                                        SampleNoAnnotationsActivity.this,
-                                        "New scene " + sceneId,
-                                        Toast.LENGTH_SHORT
-                                ).show();
+                                Log.d("SceneListener", "New scene " + sceneId);
                             }
                         })
         );

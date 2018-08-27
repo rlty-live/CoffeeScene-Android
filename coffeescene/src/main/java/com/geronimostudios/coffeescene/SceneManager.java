@@ -227,10 +227,10 @@ public final class SceneManager {
                         creator.getListener()
                 ))
         );
-        if (creator.getDefaultSceneId() != -1) {
+        if (creator.getFirstSceneId() != -1) {
             doChangeScene(
                     creator.getReference(),
-                    creator.getDefaultSceneId(),
+                    creator.getFirstSceneId(),
                     false
             );
         }
