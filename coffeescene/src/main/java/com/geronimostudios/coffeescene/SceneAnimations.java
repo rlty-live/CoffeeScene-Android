@@ -4,9 +4,9 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.view.View;
 
-public final class SceneAnimator {
+public final class SceneAnimations {
 
-    private SceneAnimator() {
+    private SceneAnimations() {
         // Not instantiable
     }
     /**

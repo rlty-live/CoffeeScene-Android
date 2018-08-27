@@ -45,7 +45,7 @@ public final class SceneManager {
         return doCreate(
                 context,
                 reference,
-                SceneAnimator.ANIMATION_FADE,
+                SceneAnimations.ANIMATION_FADE,
                 new FrameLayout(context),
                 null
         );
@@ -84,7 +84,7 @@ public final class SceneManager {
         ViewGroup root = doCreate(
                 activity,
                 activity,
-                SceneAnimator.ANIMATION_FADE,
+                SceneAnimations.ANIMATION_FADE,
                 new FrameLayout(activity),
                 null
         );
@@ -119,7 +119,7 @@ public final class SceneManager {
      * @param view a {@link ViewGroup} that has a {@link CoffeeScene}
      */
     public static ViewGroup create(@NonNull ViewGroup view) {
-        return doCreate(view.getContext(), view, SceneAnimator.ANIMATION_FADE, view, null);
+        return doCreate(view.getContext(), view, SceneAnimations.ANIMATION_FADE, view, null);
     }
 
     /**
@@ -148,7 +148,7 @@ public final class SceneManager {
         return doCreate(
                 fragment.getActivity(),
                 fragment,
-                SceneAnimator.ANIMATION_FADE,
+                SceneAnimations.ANIMATION_FADE,
                 new FrameLayout(fragment.getActivity()),
                 null
         );
@@ -184,7 +184,7 @@ public final class SceneManager {
         return doCreate(
                 fragment.getActivity(),
                 fragment,
-                SceneAnimator.ANIMATION_FADE,
+                SceneAnimations.ANIMATION_FADE,
                 new FrameLayout(fragment.getActivity()),
                 null
         );
@@ -220,7 +220,7 @@ public final class SceneManager {
         sScenesMeta.add(Pair.create(
                 new WeakReference<>(creator.getReference()),
                 new ScenesMeta(
-                        adapter == null ? SceneAnimator.ANIMATION_FADE : adapter,
+                        adapter == null ? SceneAnimations.ANIMATION_FADE : adapter,
                         creator.getScenes(),
                         creator.getListener()
                 ))
@@ -304,7 +304,7 @@ public final class SceneManager {
 
         // Create root node with all scenes
         if (adapter == null) {
-            adapter = SceneAnimator.ANIMATION_FADE;
+            adapter = SceneAnimations.ANIMATION_FADE;
         }
         LayoutInflater inflater = LayoutInflater.from(context);
         for (Scene scene : scenes) {
