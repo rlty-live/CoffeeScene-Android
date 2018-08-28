@@ -5,14 +5,10 @@ import android.view.View;
 
 import java.util.List;
 
-public class ScenesParams {
-    private final SparseArray<List<View>> scenes;
+public abstract class ScenesParams {
+    protected final SparseArray<List<View>> mScenes;
 
-    public ScenesParams(SparseArray<List<View>> scenes) {
-        this.scenes = scenes;
-    }
-
-    protected SparseArray<List<View>> scenes() {
-        return scenes;
+    protected ScenesParams(SparseArray<List<View>> scenes) {
+        this.mScenes = scenes;
     }
 }

@@ -19,23 +19,23 @@ import java.util.List;
 public interface AnimationAdapter<T extends ScenesParams> {
 
     /**
-     * Called once at the beginning when the scenes are created.
+     * <p>Called once at the beginning when the mScenes are created.
      * The adapter is free to use {@link ScenesParams}, it will be provided
-     * to {@link #doChangeScene(SparseArray, ScenesParams, int, boolean)} at each call.
+     * to {@link #doChangeScene(SparseArray, ScenesParams, int, boolean)} at each call.</p>
      *
-     * There is one {@link ScenesParams} per
-     * {@link SceneManager#doCreate(Context, Object, AnimationAdapter, ViewGroup, Listener)}
+     * <p>There is one {@link ScenesParams} per
+     * {@link SceneManager#doCreate(Context, Object, AnimationAdapter, ViewGroup, Listener)}</p>
      */
     @Nullable T generateScenesParams(final @NonNull SparseArray<List<View>> scenes);
 
     /**
-     * This is called each time the current scene changes. This is where the animations are
-     * done.
+     * <p>This is called each time the current scene changes. This is where the animations are
+     * done.</p>
      *
      * @param scenesIdsToViews An {@link SparseArray} that links each scene id to
      *                         its associated views.
      * @param scenesParams The {@link ScenesParams} returned
-     *                     by {@link #generateScenesParams(SparseArray)} for these scenes.
+     *                     by {@link #generateScenesParams(SparseArray)} for these mScenes.
      * @param sceneId The scene id to be displayed.
      * @param animate true if you can animate the transition.
      *                false if an animation is not recommended. Ex: When the default scene is

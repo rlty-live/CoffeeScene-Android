@@ -27,7 +27,7 @@ import java.util.List;
  * {@link ViewGroup}, {@link android.app.Fragment} or
  * {@link android.support.v4.app.Fragment} annotated with {@link CoffeeScene}.</p>
  *
- * {@link SceneManager} is also used to switch the scenes.
+ * {@link SceneManager} is also used to switch the mScenes.
  */
 public final class SceneManager {
 
@@ -38,7 +38,7 @@ public final class SceneManager {
 
     /**
      * <p>Parse the annotation {@link CoffeeScene} of an Object
-     * and creates the scenes.</p>
+     * and creates the mScenes.</p>
      *
      * @param context the holding context used to inflate the views.
      * @param reference an object that has a {@link CoffeeScene}
@@ -55,7 +55,7 @@ public final class SceneManager {
 
     /**
      * <p>Parse the annotation {@link CoffeeScene} of an Object
-     * and creates the scenes.</p>
+     * and creates the mScenes.</p>
      *
      * @param context the holding context used to inflate the views.
      * @param reference an object that has a {@link CoffeeScene}
@@ -75,7 +75,7 @@ public final class SceneManager {
 
     /**
      * <p>Parse the annotation {@link CoffeeScene} of an {@link Activity}
-     * and add the scenes into the {@link Activity}.</p>
+     * and add the mScenes into the {@link Activity}.</p>
      *
      * <p>This method will add each scene into {@link Activity} with
      * {@link Activity#setContentView(int)} (View)}.</p>
@@ -96,7 +96,7 @@ public final class SceneManager {
 
     /**
      * <p>Parse the annotation {@link CoffeeScene} of an {@link Activity}
-     * and add the scenes into the {@link Activity}.</p>
+     * and add the mScenes into the {@link Activity}.</p>
      *
      * <p>This method will add each scene into {@link Activity} with
      * {@link Activity#setContentView(int)} (View)}.</p>
@@ -113,7 +113,7 @@ public final class SceneManager {
 
     /**
      * <p>Parse the annotation {@link CoffeeScene} of a {@link ViewGroup}
-     * and add the scenes into the {@link ViewGroup}.</p>
+     * and add the mScenes into the {@link ViewGroup}.</p>
      *
      * <p>This method will add each scene into {@link ViewGroup} with
      * {@link ViewGroup#addView(View)}.</p>
@@ -126,7 +126,7 @@ public final class SceneManager {
 
     /**
      * <p>Parse the annotation {@link CoffeeScene} of a {@link ViewGroup}
-     * and add the scenes into the {@link ViewGroup}.</p>
+     * and add the mScenes into the {@link ViewGroup}.</p>
      *
      * <p>This method will add each scene into {@link ViewGroup} with
      * {@link ViewGroup#addView(View)}.</p>
@@ -274,13 +274,12 @@ public final class SceneManager {
     }
 
     /**
-     *
-     * @param reference The reference of the scenes, it can be a {@link ViewGroup},
+     * @param reference The reference of the mScenes, it can be a {@link ViewGroup},
      *                  {@link android.support.v4.app.Fragment}, {@link Fragment},
      *                  {@link Activity} or a custom reference if you know what you are doing.
      * @return The current scene if linked to the provided reference or {@link Integer#MIN_VALUE}.
      */
-    private static int current(@NonNull Object reference) {
+    public static int current(@NonNull Object reference) {
         ScenesMeta meta = safeGetMetaData(reference);
         if (meta == null) {
             return Integer.MIN_VALUE;
@@ -297,15 +296,15 @@ public final class SceneManager {
 
     /**
      * Parse the annotation {@link CoffeeScene}, of an object.
-     * Creates the scenes and add them into a view group.
-     * Save the metadata of those scenes into {@link SceneManager#sScenesMeta}.
+     * Creates the mScenes and add them into a view group.
+     * Save the metadata of those mScenes into {@link SceneManager#sScenesMeta}.
      *
      * @param context Holding context for the inflater
      * @param object The associated activity, view or fragments that has a {@link CoffeeScene}
      * @param adapter The animation adapter to be used.
-     * @param root The root view group in which the scenes will be added.
+     * @param root The root view group in which the mScenes will be added.
      *
-     * @return The root view group that contains the scenes
+     * @return The root view group that contains the mScenes
      */
     private static ViewGroup doCreate(@NonNull Context context,
                                       @NonNull Object object,
@@ -316,10 +315,7 @@ public final class SceneManager {
         CoffeeScene setup = safeGetSetup(object);
         Scene[] scenes = setup.value();
 
-        // Save scenes meta data
-        int firstScene = getValidFirstScene(setup, scenes);
-
-        // Create root node with all scenes
+        // Create root node with all mScenes
         if (adapter == null) {
             adapter = SceneAnimations.FADE;
         }
@@ -339,7 +335,7 @@ public final class SceneManager {
         adapter.doChangeScene(
                 meta.getScenesIdsToViews(),
                 meta.getScenesParams(),
-                firstScene,
+                getValidFirstScene(setup, scenes),
                 false
         );
         return root;

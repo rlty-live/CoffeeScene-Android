@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <p>This {@link SceneCreator} allows to create scenes from an existing layout.</p>
+ * <p>This {@link SceneCreator} allows to create mScenes from an existing layout.</p>
  *
  * <p>Example:
  * SceneManager.create(
@@ -48,7 +48,7 @@ public final class SceneCreator {
      * will be searched into the parameter rootView.
      *
      * @param reference the reference that will be used to change scene.
-     * @param rootView the view group that holds the scenes anchors.
+     * @param rootView the view group that holds the mScenes anchors.
      *
      * @return a {@link SceneCreator} for more configurations.
      */
