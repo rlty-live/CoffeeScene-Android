@@ -27,7 +27,7 @@ public class SampleNoAnnotationsActivity extends AppCompatActivity implements Vi
                         .add(Scene.SPINNER, R.id.activity_no_annotations_sample_loader)
                         .add(Scene.PLACEHOLDER, R.id.activity_no_annotations_sample_placeholder)
                         .first(Scene.MAIN)
-                        .animation(SceneAnimations.ANIMATION_TRANSLATE_X)
+                        .animation(SceneAnimations.TRANSLATE_X)
                         .listener(new CoffeeSceneListenerAdapter() {
                             @Override
                             public void onSceneChanged(int sceneId) {

@@ -22,6 +22,7 @@ final class ScenesMeta {
     private @NonNull SparseArray<List<View>> mScenesIdsToViews;
     private Listener mListener;
     private @Nullable ScenesParams mScenesParams;
+    private int mCurrentSceneId = Integer.MIN_VALUE;
 
     ScenesMeta(@NonNull ViewGroup root,
                @NonNull AnimationAdapter sceneAnimationAdapter,
@@ -35,6 +36,7 @@ final class ScenesMeta {
             List<View> list = mScenesIdsToViews.get(sceneId);
             if (list == null) {
                 list = new ArrayList<>();
+                assertValidScene(sceneId, list);
                 mScenesIdsToViews.put(sceneId, list);
             }
             list.add(root.getChildAt(i));
@@ -52,11 +54,18 @@ final class ScenesMeta {
             List<View> list = mScenesIdsToViews.get(pair.first);
             if (list == null) {
                 list = new ArrayList<>();
+                assertValidScene(pair.first, list);
                 mScenesIdsToViews.put(pair.first, list);
             }
             list.add(pair.second);
         }
         mScenesParams = mSceneAnimationAdapter.generateScenesParams(mScenesIdsToViews);
+    }
+
+    private void assertValidScene(int sceneId, List<View> views) {
+        if (sceneId == Integer.MIN_VALUE) {
+            throw new RuntimeException("Invalid scene id, do not use Integer.MIN_VALUE.");
+        }
     }
 
     @NonNull
@@ -77,5 +86,13 @@ final class ScenesMeta {
     @Nullable
     Listener getListener() {
         return mListener;
+    }
+
+    public void setCurrentSceneId(int currentSceneId) {
+        mCurrentSceneId = currentSceneId;
+    }
+
+    public int getCurrentSceneId() {
+        return mCurrentSceneId;
     }
 }

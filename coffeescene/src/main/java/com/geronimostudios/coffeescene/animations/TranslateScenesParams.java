@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class TranslateScenesParams extends ScenesParams {
+class TranslateScenesParams extends ScenesParams {
     private @NonNull List<Pair<Integer, List<View>>> mScenesIdsToViews;
     private int mLastSceneId = Integer.MIN_VALUE;
 
@@ -19,7 +19,6 @@ public class TranslateScenesParams extends ScenesParams {
 
         mScenesIdsToViews = new ArrayList<>();
         for (int i = 0; i < scenes.size(); i++) {
-            // do change scene
             int viewSceneId = scenes.keyAt(i);
             List<View> views = scenes.get(viewSceneId);
 
@@ -34,7 +33,7 @@ public class TranslateScenesParams extends ScenesParams {
         });
     }
 
-    public int positionOf(int sceneId) {
+    protected int positionOf(int sceneId) {
         for (int i = 0; i < mScenesIdsToViews.size(); ++i) {
             Pair<Integer, List<View>> scenesIdsToView = mScenesIdsToViews.get(i);
             if (scenesIdsToView.first == sceneId) {
@@ -44,15 +43,15 @@ public class TranslateScenesParams extends ScenesParams {
         throw new RuntimeException("position not found");
     }
 
-    public int getLastSceneId() {
+    protected int getLastSceneId() {
         return mLastSceneId;
     }
 
-    public boolean hasValidLastSceneId() {
+    protected boolean hasValidLastSceneId() {
         return mLastSceneId != Integer.MIN_VALUE;
     }
 
-    public void setLastSceneId(int lastSceneId) {
+    protected void setLastSceneId(int lastSceneId) {
         mLastSceneId = lastSceneId;
     }
 }

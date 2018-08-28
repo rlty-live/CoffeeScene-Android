@@ -10,11 +10,30 @@ public final class SceneAnimations {
     private SceneAnimations() {
         // Not instantiable
     }
+
+    /**
+     * No animation.
+     * The visibility changes from {@link View#VISIBLE} to {@link View#GONE}.
+     */
+    public static AnimationAdapter NO_ANIMATION
+            = new SimpleAnimationAdapter() {
+
+        @Override
+        public void showView(View view, @Nullable ScenesParams params, boolean animate) {
+            view.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void hideView(View view, @Nullable ScenesParams params, boolean animate) {
+            view.setVisibility(View.GONE);
+        }
+    };
+
     /**
      * Fade in or out and change the visibility from {@link View#VISIBLE} to {@link View#GONE}.
      * This is the default animation adapter.
      */
-    public static AnimationAdapter ANIMATION_FADE
+    public static AnimationAdapter FADE
             = new SimpleAnimationAdapter() {
 
         @Override
@@ -39,10 +58,10 @@ public final class SceneAnimations {
     };
 
     /**
-     * Fade in or out and call {@link View#setEnabled(boolean)} on the view.
+     * Fade in or out and call {@link View#setEnabled(boolean)} on the views.
      * The visibility changes from {@link View#VISIBLE} to {@link View#INVISIBLE}.
      */
-    public static AnimationAdapter ANIMATION_ALPHA_ENABLE
+    public static AnimationAdapter ALPHA_ENABLE
             = new SimpleAnimationAdapter<ScenesParams>() {
 
         @Override
@@ -85,8 +104,8 @@ public final class SceneAnimations {
     };
 
     /**
-     * Translate the views like a {@link android.support.v4.view.ViewPager}
+     * Translate the views like a {@link android.support.v4.view.ViewPager}.
      */
-    public static AnimationAdapter ANIMATION_TRANSLATE_X = new TranslateXAnimationAdapter();
+    public static AnimationAdapter TRANSLATE_X = new TranslateXAnimationAdapter();
 
 }
