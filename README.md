@@ -46,13 +46,13 @@ public class SampleNoAnnotationsActivity extends AppCompatActivity implements Vi
                         .add(EMPTY_RECYCLER_PLACEHOLDER, R.id.activity_no_annotations_sample_empty_placeholder)
                         .listener(this)
                         .animation(this)
-                        .main(Scene.SPINNER)
+                        .first(Scene.SPINNER)
         );
     }
 ...
 }
 ```
-With a SceneCreator the scenes are registered by calling **.add** with an unique identifier and the id of the viewgroup that holds the scene.
+With a SceneCreator the scenes are registered by calling **.add** with an unique identifier and the id of the view/viewgroup that holds the scene.
 
 How to use with annotations only
 ==========
@@ -140,7 +140,7 @@ Full example
                 @Scene(scene = Scene.SPINNER, layout = R.layout.loader),
                 @Scene(scene = Scene.PLACEHOLDER, layout = R.layout.placeholder)
         },
-        defaultScene = Scene.MAIN
+        first = Scene.MAIN
 )
 public class SampleActivity extends AppCompatActivity implements View.OnClickListener {
 
