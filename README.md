@@ -11,11 +11,11 @@ You can also try it on Google Play : https://play.google.com/store/apps/details?
 
 Gradle
 =======
-Include the dependency [Download (.aar)](https://bintray.com/geronimostudios/geronimostudios/download_file?file_path=com%2Fgeronimostudios%2Fcoffeescene%2Fcoffeescene%2F1.0.0%2Fcoffeescene-1.0.0.aar) :
+Include the dependency [Download (.aar)](https://bintray.com/geronimostudios/geronimostudios/download_file?file_path=com%2Fgeronimostudios%2Fcoffeescene%2Fcoffeescene%2F1.0.1%2Fcoffeescene-1.0.1.aar) :
 
 ```groovy
 dependencies {
-    implementation 'com.geronimostudios.coffeescene:coffeescene:1.0.0'
+    implementation 'com.geronimostudios.coffeescene:coffeescene:1.0.1'
 }
 ```
 
